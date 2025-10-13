@@ -50,8 +50,8 @@ class _AppLayoutState extends State<AppLayout> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        selectedFontSize: 0,
-        unselectedFontSize: 0,
+        // selectedFontSize: 0,
+        // unselectedFontSize: 0,
         currentIndex: currentPage,
         onTap: (value) {
           setState(() {
@@ -64,7 +64,7 @@ class _AppLayoutState extends State<AppLayout> {
               Icons.home,
               color: Colors.white,
             ),
-            label: '',
+            label: 'Home',
           ),
           // BottomNavigationBarItem(
           //   icon: Icon(
@@ -78,14 +78,14 @@ class _AppLayoutState extends State<AppLayout> {
               Icons.add_box_outlined,
               color: Colors.white,
             ),
-            label: '',
+            label: 'Add',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.track_changes,
               color: Colors.white,
             ),
-            label: '',
+            label: 'Progress',
           ),
           // BottomNavigationBarItem(
           //   icon: Icon(
