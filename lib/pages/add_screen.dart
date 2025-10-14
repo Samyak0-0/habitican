@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:habitican/utils/day_picker.dart';
 
-class AddScreen extends StatelessWidget {
+class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
+
+  @override
+  State<AddScreen> createState() => _AddScreenState();
+}
+
+class _AddScreenState extends State<AddScreen> {
+  final TextEditingController _inputField = TextEditingController();
+  final TextEditingController _descriptionField = TextEditingController();
+  final List<String> _intervalTypeList = [
+    'Daily',
+    'Weekly',
+  ];
+  String? _selectedInterval;
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +25,56 @@ class AddScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: [],
+            children: [
+              Text('X'),
+              Expanded(
+                child: Text(
+                  'Start a New Habit!',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
           ),
           const Text(
             'Habit Name',
           ),
-          const TextField(),
+          TextField(
+            controller: _inputField,
+          ),
           const Text('Description'),
-          const TextField(),
-          const Text('Intervals'),
+          TextField(
+            controller: _descriptionField,
+          ),
+
+          const Text('Interval'),
+          SizedBox(
+            // width: 200,
+            child: DropdownButtonFormField(
+              // itemHeight: 50,
+              hint: Text('Select an option'),
+              initialValue: _selectedInterval,
+              items: _intervalTypeList
+                  .map(
+                    (String e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedInterval = newValue; // Update the selected value
+                });
+              },
+              decoration: InputDecoration(
+                // Optional label
+                border: OutlineInputBorder(), // Optional border decoration
+              ),
+            ),
+          ),
+
+          ?_selectedInterval == "Weekly" ? DayPicker() : null,
+
           const Text('Reminders'),
           const Text('Icons'),
           TextButton(

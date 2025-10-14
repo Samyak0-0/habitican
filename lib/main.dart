@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/pages/add_screen.dart';
 import 'package:habitican/pages/dashboard.dart';
-import 'package:habitican/pages/edit_screen.dart';
-import 'package:habitican/pages/profile_screen.dart';
 import 'package:habitican/pages/tracker_screen.dart';
 
 void main() {
@@ -60,35 +58,35 @@ class _AppLayoutState extends State<AppLayout> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: Colors.white,
+              // color: Colors.black,
             ),
             label: 'Home',
           ),
           // BottomNavigationBarItem(
           //   icon: Icon(
           //     Icons.edit_calendar_outlined,
-          //     color: Colors.white,
+          //    color: Colors.black,
           //   ),
           //   label: '',
           // ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.add_box_outlined,
-              color: Colors.white,
+              // color: Colors.black,
             ),
             label: 'Add',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.track_changes,
-              color: Colors.white,
+              // color: Colors.black,
             ),
             label: 'Progress',
           ),
           // BottomNavigationBarItem(
           //   icon: Icon(
           //     Icons.account_circle,
-          //     color: Colors.white,
+          //    color: Colors.black,
           //   ),
           //   label: '',
           // ),
