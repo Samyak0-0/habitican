@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'habitician',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(useMaterial3: true),
+      theme: ThemeData.light(useMaterial3: true),
       home: AppLayout(),
     );
   }
@@ -35,10 +35,8 @@ class _AppLayoutState extends State<AppLayout> {
 
   List<Widget> pages = [
     Dashboard(),
-    EditScreen(),
     AddScreen(),
     TrackerScreen(),
-    ProfileScreen(),
   ];
 
   @override
@@ -58,7 +56,7 @@ class _AppLayoutState extends State<AppLayout> {
             currentPage = value;
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,

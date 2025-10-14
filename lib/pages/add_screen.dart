@@ -5,6 +5,31 @@ class AddScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Padding(
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [],
+          ),
+          const Text(
+            'Habit Name',
+          ),
+          const TextField(),
+          const Text('Description'),
+          const TextField(),
+          const Text('Intervals'),
+          const Text('Reminders'),
+          const Text('Icons'),
+          TextButton(
+            onPressed: () {
+              print('asa');
+            },
+            child: Text('Save'),
+          ),
+        ],
+      ),
+    );
   }
 }

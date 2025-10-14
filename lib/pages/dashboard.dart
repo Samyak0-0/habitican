@@ -1,6 +1,9 @@
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:habitican/components/habit_list.dart';
 import 'package:habitican/components/to_do_list.dart';
+import 'package:intl/intl.dart';
+// import 'package:intl';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -10,43 +13,108 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  final todayDate = DateFormat("dd MMM, yyyy").format(DateTime.now());
+  String _selectedValue = DateTime.now().toString();
+
   int habitToDoIndex = 0;
 
-  List<Widget> pages = [
+  List<Widget> habitToDoLists = [
     HabitList(),
     ToDoList(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
-              children: [],
+              children: [
+                const Text('Welcome Samyak'),
+
+                Row(
+                  children: [
+                    Icon(Icons.calendar_month_outlined),
+                    Text(todayDate),
+                  ],
+                ),
+              ],
             ),
-            Icon(Icons.account_circle),
+            const Icon(Icons.account_circle),
           ],
         ),
-        Placeholder(),
-        Text("Today ' s"),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(Icons.navigate_before),
+            Text("October, 2025"),
+            Icon(Icons.navigate_next),
+          ],
+        ),
+        SizedBox(
+          height: 100,
+          child: DatePicker(
+            /* 
+            Needs logic to Start Counting from when user joined to App
+            till the current day it is today.
+            */
+            DateTime.now(),
+            initialSelectedDate: DateTime.now(),
+            width: 60,
+            daysCount: 100,
+            // monthTextStyle: TextStyle(color: Colors.white),
+            // dateTextStyle: TextStyle(),
+            // dayTextStyle: TextStyle(),
+            selectionColor: const Color.fromRGBO(158, 187, 31, 1),
+            selectedTextColor: Colors.white,
+            onDateChange: (date) {
+              // New date selected
+              setState(() {
+                _selectedValue = date.toString();
+                print(_selectedValue);
+              });
+            },
+          ),
+        ),
+        const Text("Today ' s"),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                Chip(label: Text("Habits")),
-                Chip(label: Text("Tasks")),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 5, 12, 5),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        habitToDoIndex = 0;
+                      });
+                    },
+                    child: const Chip(
+                      label: Text("Habits"),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      habitToDoIndex = 1;
+                    });
+                  },
+                  child: const Chip(
+                    label: Text("Tasks"),
+                  ),
+                ),
               ],
             ),
-            Icon(Icons.replay_circle_filled_rounded),
+            const Icon(Icons.replay_circle_filled_rounded),
           ],
         ),
         IndexedStack(
-          index: 0,
-          children: [],
+          index: habitToDoIndex,
+          children: habitToDoLists,
         ),
       ],
     );
