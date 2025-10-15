@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class Habitcards extends StatelessWidget {
-  const Habitcards({super.key});
+  final String name;
+  const Habitcards({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      color: Colors.red,
+      width: double.infinity,
+      child: Text(name),
+    );
   }
 }

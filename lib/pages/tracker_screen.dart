@@ -22,10 +22,10 @@ class _TrackerScreenState extends State<TrackerScreen> {
             // Icon(Icons.navigate_before),
             // Text("October, 2025"),
             // Icon(Icons.navigate_next),
-            Text("Your Progress Report"),
+            const Text("Your Progress Report"),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 500,
           child: MonthlyScreen(),
         ),
@@ -33,7 +33,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
         // DayProgressCircularBar(),
         Expanded(
           child: ListView(
-            children: [
+            children: const [
               Text('Daily Insights'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -44,7 +44,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
                       Text("Task Completed: 9/11"),
                     ],
                   ),
-                  DayProgressCircularBar(date: 1.toString()),
+                  DayProgressCircularBar(date: '1'),
                 ],
               ),
               Text("View Details ->"),

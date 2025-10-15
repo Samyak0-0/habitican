@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ToDoCards extends StatelessWidget {
-  const ToDoCards({super.key});
+  final String name;
+  const ToDoCards({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      color: Colors.blueAccent,
+      width: double.infinity,
+      child: Text(name),
+    );
   }
 }

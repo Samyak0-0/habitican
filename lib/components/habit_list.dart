@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habitican/components/habit_cards.dart';
 
 class HabitList extends StatelessWidget {
   const HabitList({super.key});
@@ -6,7 +7,9 @@ class HabitList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [const Text('ada')],
+      children: [
+        Habitcards(name: "sdsfsd"),
+      ],
     );
   }
 }

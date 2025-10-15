@@ -73,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
               // New date selected
               setState(() {
                 _selectedValue = date.toString();
-                print(_selectedValue);
+                // print(_selectedValue);
               });
             },
           ),
@@ -92,8 +92,18 @@ class _DashboardState extends State<Dashboard> {
                         habitToDoIndex = 0;
                       });
                     },
-                    child: const Chip(
-                      label: Text("Habits"),
+                    child: Chip(
+                      backgroundColor: habitToDoIndex == 0
+                          ? Colors.green
+                          : null,
+                      label: Text(
+                        "Habits",
+                        style: TextStyle(
+                          color: habitToDoIndex == 0
+                              ? Colors.white
+                              : Colors.black87,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -103,8 +113,16 @@ class _DashboardState extends State<Dashboard> {
                       habitToDoIndex = 1;
                     });
                   },
-                  child: const Chip(
-                    label: Text("Tasks"),
+                  child: Chip(
+                    backgroundColor: habitToDoIndex == 1 ? Colors.green : null,
+                    label: Text(
+                      "Tasks",
+                      style: TextStyle(
+                        color: habitToDoIndex == 1
+                            ? Colors.white
+                            : Colors.black87,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -112,10 +130,12 @@ class _DashboardState extends State<Dashboard> {
             const Icon(Icons.replay_circle_filled_rounded),
           ],
         ),
-        // IndexedStack(
-        //   index: habitToDoIndex,
-        //   children: habitToDoLists,
-        // ),
+        Expanded(
+          child: IndexedStack(
+            index: habitToDoIndex,
+            children: habitToDoLists,
+          ),
+        ),
       ],
     );
   }
