@@ -112,10 +112,10 @@ class _DashboardState extends State<Dashboard> {
             const Icon(Icons.replay_circle_filled_rounded),
           ],
         ),
-        IndexedStack(
-          index: habitToDoIndex,
-          children: habitToDoLists,
-        ),
+        // IndexedStack(
+        //   index: habitToDoIndex,
+        //   children: habitToDoLists,
+        // ),
       ],
     );
   }
