@@ -12,29 +12,27 @@ class DayProgressCircularBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: CircularPercentIndicator(
-        radius: 22.0,
+    return CircularPercentIndicator(
+      radius: 22.0,
+      lineWidth: 5.0,
+      percent: percent + 0.2,
+      circularStrokeCap: CircularStrokeCap.round,
+      backgroundColor: Colors.transparent,
+      progressColor: Colors.green,
+
+      center: CircularPercentIndicator(
+        radius: 15.0,
         lineWidth: 5.0,
-        percent: percent + 0.2,
+        percent: percent,
         circularStrokeCap: CircularStrokeCap.round,
         backgroundColor: Colors.transparent,
-        progressColor: Colors.green,
-
-        center: CircularPercentIndicator(
-          radius: 15.0,
-          lineWidth: 5.0,
-          percent: percent,
-          circularStrokeCap: CircularStrokeCap.round,
-          backgroundColor: Colors.transparent,
-          progressColor: Colors.red,
-          center: Text(
-            date,
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: Colors.black,
-            ),
+        progressColor: Colors.red,
+        center: Text(
+          date,
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            color: Colors.black,
           ),
         ),
       ),

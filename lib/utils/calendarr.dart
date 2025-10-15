@@ -127,7 +127,7 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                           date.day.toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                            fontSize: 14,
                             color: isCurrentMonth ? Colors.black : Colors.grey,
                           ),
                         ),

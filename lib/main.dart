@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/pages/add_screen.dart';
 import 'package:habitican/pages/dashboard.dart';
-import 'package:habitican/pages/edit_screen.dart';
 // import 'package:habitican/pages/testing_code.dart';
 import 'package:habitican/pages/tracker_screen.dart';
 
@@ -36,7 +35,7 @@ class _AppLayoutState extends State<AppLayout> {
   List<Widget> pages = [
     Dashboard(),
     AddScreen(),
-    EditScreen(),
+    TrackerScreen(),
   ];
 
   @override
