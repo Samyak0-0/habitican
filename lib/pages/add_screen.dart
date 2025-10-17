@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitican/utils/day_picker.dart';
 
 class AddScreen extends StatefulWidget {
@@ -17,6 +16,8 @@ class _AddScreenState extends State<AddScreen> {
     'Weekly',
   ];
   String? _selectedInterval;
+  TimeOfDay selectedTime = TimeOfDay.now();
+  TimeOfDay? finalSelectedTime;
 
   @override
   Widget build(BuildContext context) {
@@ -76,16 +77,44 @@ class _AddScreenState extends State<AddScreen> {
 
           ?_selectedInterval == "Weekly" ? DayPicker() : null,
 
-          const Text('Reminders'),
-          const Text('Icons'),
-          FaIcon(
-            FontAwesomeIcons.dumbbell,
-            size: 32,
-            color: Colors.black,
+          Row(
+            children: [
+              const Expanded(child: Text('Reminders')),
+              ElevatedButton(
+                onPressed: () async {
+                  final TimeOfDay? timeOfDay = await showTimePicker(
+                    context: context,
+                    initialTime: selectedTime,
+                  );
+                  if (timeOfDay != null) {
+                    setState(() {
+                      selectedTime = timeOfDay;
+                      finalSelectedTime = timeOfDay;
+                    });
+                  }
+                },
+                child: Text(
+                  finalSelectedTime != null
+                      ? '${finalSelectedTime?.format(context)}'
+                      : "None",
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    finalSelectedTime = null;
+                  });
+                },
+                icon: Icon(Icons.delete),
+              ),
+            ],
           ),
+
+          const Text('Icons'),
           TextButton(
             onPressed: () {
               print('asa');
+              print(_inputField.selection);
             },
             child: Text('Save'),
           ),

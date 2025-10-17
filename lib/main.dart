@@ -46,9 +46,11 @@ class _AppLayoutState extends State<AppLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: currentPage,
-        children: pages,
+      body: SafeArea(
+        child: IndexedStack(
+          index: currentPage,
+          children: pages,
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
