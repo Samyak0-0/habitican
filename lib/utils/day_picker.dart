@@ -50,7 +50,7 @@ class _DayPickerState extends State<DayPicker> {
             onTap: () {
               setState(() {
                 selectedDay = day;
-                print(selectedDay);
+                debugPrint(selectedDay);
               });
             },
             child: CircleAvatar(radius: 20, child: Text(day[0])),

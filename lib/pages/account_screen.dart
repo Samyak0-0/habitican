@@ -8,7 +8,7 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final testStr = Provider.of<GlobalStateProvider>(context);
-    print(testStr.testString);
+    // print(testStr.testString);
     return ListView(
       children: [
         Text('Profile'),

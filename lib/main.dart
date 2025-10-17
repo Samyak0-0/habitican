@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:habitican/database/boxes.dart';
+import 'package:habitican/database/habits.dart';
 import 'package:habitican/pages/add_screen.dart';
 import 'package:habitican/pages/dashboard.dart';
 // import 'package:habitican/pages/testing_code.dart';
 import 'package:habitican/pages/tracker_screen.dart';
 import 'package:habitican/utils/global_state_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(HabitsAdapter());
+  boxHabits = await Hive.openBox<Habits>('habitsBox');
   runApp(const MyApp());
 }
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habitican/database/boxes.dart';
+import 'package:habitican/database/habits.dart';
 import 'package:habitican/utils/day_picker.dart';
 
 class AddScreen extends StatefulWidget {
@@ -18,6 +20,7 @@ class _AddScreenState extends State<AddScreen> {
   String? _selectedInterval;
   TimeOfDay selectedTime = TimeOfDay.now();
   TimeOfDay? finalSelectedTime;
+  Habits habitsList = boxHabits.getAt(0);
 
   @override
   Widget build(BuildContext context) {
@@ -69,14 +72,12 @@ class _AddScreenState extends State<AddScreen> {
                 });
               },
               decoration: InputDecoration(
-                // Optional label
                 border: OutlineInputBorder(), // Optional border decoration
               ),
             ),
           ),
 
-          ?_selectedInterval == "Weekly" ? DayPicker() : null,
-
+          // ?_selectedInterval == "Weekly" ? DayPicker() : null,
           Row(
             children: [
               const Expanded(child: Text('Reminders')),
@@ -113,11 +114,33 @@ class _AddScreenState extends State<AddScreen> {
           const Text('Icons'),
           TextButton(
             onPressed: () {
-              print('asa');
-              print(_inputField.selection);
+              setState(() {
+                if (_selectedInterval != null &&
+                    finalSelectedTime?.format(context) != null) {
+                  boxHabits.put(
+                    _inputField.text,
+                    Habits(
+                      name: _inputField.text,
+                      interval: _selectedInterval!,
+                      reminder: finalSelectedTime!.format(context),
+                      description: _descriptionField.text,
+                    ),
+                  );
+                }
+              });
+              // print('asa');
+              // debugPrint(_inputField.text);
+              // debugPrint(_descriptionField.text);
+              // debugPrint(_selectedInterval);
+              // debugPrint(finalSelectedTime?.format(context));
             },
             child: Text('Save'),
           ),
+          Text(habitsList.name),
+          if (habitsList.description != null)
+            Text(habitsList.description ?? ""),
+          Text(habitsList.interval),
+          Text(habitsList.reminder),
         ],
       ),
     );
