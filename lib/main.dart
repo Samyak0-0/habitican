@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/pages/add_screen.dart';
 import 'package:habitican/pages/dashboard.dart';
-import 'package:habitican/pages/account_screen.dart';
 // import 'package:habitican/pages/testing_code.dart';
 import 'package:habitican/pages/tracker_screen.dart';
+import 'package:habitican/utils/global_state_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,11 +15,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'habitician',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(useMaterial3: true),
-      home: AppLayout(),
+    return ChangeNotifierProvider(
+      create: (context) => GlobalStateProvider(),
+      child: MaterialApp(
+        title: 'habitician',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.light(useMaterial3: true),
+        home: AppLayout(),
+      ),
     );
   }
 }
@@ -34,7 +38,7 @@ class _AppLayoutState extends State<AppLayout> {
   int currentPage = 0;
 
   List<Widget> pages = [
-    AccountScreen(),
+    Dashboard(),
     AddScreen(),
     TrackerScreen(),
   ];

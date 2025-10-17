@@ -2,6 +2,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:habitican/components/habit_list.dart';
 import 'package:habitican/components/to_do_list.dart';
+import 'package:habitican/pages/account_screen.dart';
 import 'package:intl/intl.dart';
 // import 'package:intl';
 
@@ -42,7 +43,19 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ],
             ),
-            const Icon(Icons.account_circle),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return AccountScreen();
+                    },
+                  ),
+                );
+              },
+              child: const Icon(Icons.account_circle),
+            ),
           ],
         ),
         const Row(

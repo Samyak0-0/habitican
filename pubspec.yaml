@@ -38,6 +38,8 @@ dependencies:
   date_picker_timeline: ^1.2.7
   percent_indicator: ^4.2.5
   gap: ^3.0.1
+  provider: ^6.1.5+1
+  font_awesome_flutter: ^10.10.0
 
 dev_dependencies:
   flutter_test:

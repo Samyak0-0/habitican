@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitican/utils/day_picker.dart';
 
 class AddScreen extends StatefulWidget {
@@ -77,6 +78,11 @@ class _AddScreenState extends State<AddScreen> {
 
           const Text('Reminders'),
           const Text('Icons'),
+          FaIcon(
+            FontAwesomeIcons.dumbbell,
+            size: 32,
+            color: Colors.black,
+          ),
           TextButton(
             onPressed: () {
               print('asa');

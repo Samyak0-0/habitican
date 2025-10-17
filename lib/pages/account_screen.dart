@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:habitican/utils/global_state_provider.dart';
+import 'package:provider/provider.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final testStr = Provider.of<GlobalStateProvider>(context);
+    print(testStr.testString);
     return ListView(
       children: [
         Text('Profile'),
