@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/database/boxes.dart';
+import 'package:habitican/database/dailyTasks.dart';
 import 'package:habitican/database/habits.dart';
+import 'package:habitican/database/tasks.dart';
 import 'package:habitican/pages/add_screen.dart';
 import 'package:habitican/pages/dashboard.dart';
 // import 'package:habitican/pages/testing_code.dart';
@@ -12,7 +14,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(HabitsAdapter());
+  Hive.registerAdapter(TasksAdapter());
+  Hive.registerAdapter(DailyTasksAdapter());
   boxHabits = await Hive.openBox<Habits>('habitsBox');
+  boxTasks = await Hive.openBox<Tasks>('tasksBox');
+  boxDailyTasks = await Hive.openBox<DailyTasks>('dailyTasksBox');
   runApp(const MyApp());
 }
 

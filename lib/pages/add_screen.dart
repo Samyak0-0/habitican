@@ -77,7 +77,7 @@ class _AddScreenState extends State<AddScreen> {
             ),
           ),
 
-          // ?_selectedInterval == "Weekly" ? DayPicker() : null,
+          ?_selectedInterval == "Weekly" ? DayPicker() : null,
           Row(
             children: [
               const Expanded(child: Text('Reminders')),

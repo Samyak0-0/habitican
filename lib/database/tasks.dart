@@ -1,12 +1,11 @@
 import 'package:hive/hive.dart';
 
-part 'habits.g.dart';
+part 'tasks.g.dart';
 
-@HiveType(typeId: 1)
-class Habits {
-  Habits({
+@HiveType(typeId: 2)
+class Tasks {
+  Tasks({
     required this.name,
-    required this.interval,
     required this.reminder,
     this.description,
   });
@@ -16,9 +15,6 @@ class Habits {
 
   @HiveField(1)
   String? description;
-
-  @HiveField(2)
-  String interval;
 
   @HiveField(3)
   String reminder;
