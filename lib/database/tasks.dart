@@ -7,6 +7,7 @@ class Tasks {
   Tasks({
     required this.name,
     required this.reminder,
+    required this.interval,
     this.description,
   });
 
@@ -15,6 +16,9 @@ class Tasks {
 
   @HiveField(1)
   String? description;
+
+  @HiveField(2)
+  String interval;
 
   @HiveField(3)
   String reminder;

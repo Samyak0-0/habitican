@@ -2,14 +2,30 @@ import 'package:flutter/material.dart';
 
 class ToDoCards extends StatelessWidget {
   final String name;
-  const ToDoCards({super.key, required this.name});
+  final String? description;
+  final String interval;
+  final String reminder;
+  const ToDoCards({
+    super.key,
+    required this.name,
+    this.description,
+    required this.interval,
+    required this.reminder,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blueAccent,
-      width: double.infinity,
-      child: Text(name),
-    );
+    if (description != "") {
+      return ListTile(
+        title: Text(name),
+        subtitle: Text(description!),
+        trailing: Icon(Icons.menu),
+      );
+    } else {
+      return ListTile(
+        title: Text(name),
+        trailing: Icon(Icons.menu),
+      );
+    }
   }
 }
