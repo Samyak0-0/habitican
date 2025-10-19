@@ -8,6 +8,7 @@ class Habits {
     required this.name,
     required this.interval,
     required this.reminder,
+    required this.iconName,
     this.description,
   });
 
@@ -22,4 +23,7 @@ class Habits {
 
   @HiveField(3)
   String reminder;
+
+  @HiveField(4)
+  String iconName;
 }

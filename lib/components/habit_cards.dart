@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Habitcards extends StatelessWidget {
   final String name;
   final String? description;
   final String interval;
   final String reminder;
-  final IconData habitIcon;
+  final String habitIconName;
   const Habitcards({
     super.key,
     required this.name,
     this.description,
     required this.interval,
     required this.reminder,
-    required this.habitIcon,
+    required this.habitIconName,
   });
 
   @override
@@ -21,13 +22,13 @@ class Habitcards extends StatelessWidget {
       return ListTile(
         title: Text(name),
         subtitle: Text(description!),
-        leading: Icon(habitIcon),
+        leading: SvgPicture.asset('assets/icons/$habitIconName'),
         trailing: Icon(Icons.menu),
       );
     } else {
       return ListTile(
         title: Text(name),
-        leading: Icon(habitIcon),
+        leading: SvgPicture.asset('assets/icons/$habitIconName'),
         trailing: Icon(Icons.menu),
       );
     }

@@ -29,7 +29,7 @@ class _HabitListState extends State<HabitList> {
           name: habit.name,
           interval: habit.interval,
           reminder: habit.reminder,
-          habitIcon: Icons.fitness_center,
+          habitIconName: habit.iconName,
           description: habit.description,
         );
       },

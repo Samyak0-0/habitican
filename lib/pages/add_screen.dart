@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habitican/database/boxes.dart';
 import 'package:habitican/database/habits.dart';
 import 'package:habitican/utils/day_picker.dart';
+import 'package:habitican/utils/icon_list.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
@@ -20,7 +22,8 @@ class _AddScreenState extends State<AddScreen> {
   String? _selectedInterval;
   TimeOfDay selectedTime = TimeOfDay.now();
   TimeOfDay? finalSelectedTime;
-  Habits habitsList = boxHabits.getAt(0);
+  String? _selectedIcon;
+  // Habits habitsList = boxHabits.getAt(0);
 
   @override
   Widget build(BuildContext context) {
@@ -113,17 +116,44 @@ class _AddScreenState extends State<AddScreen> {
           ),
 
           const Text('Icons'),
+          SizedBox(
+            width: double.infinity,
+            height: 300,
+            child: GridView.builder(
+              itemCount: iconListSVG.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+              ),
+              itemBuilder: (context, index) {
+                return Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      _selectedIcon != iconListSVG[index]
+                          ? _selectedIcon = iconListSVG[index]
+                          : _selectedIcon = null;
+                    },
+                    child: SvgPicture.asset(
+                      "assets/icons/${iconListSVG[index]}",
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
           TextButton(
             onPressed: () {
               setState(() {
                 if (_selectedInterval != null &&
-                    finalSelectedTime?.format(context) != null) {
+                    finalSelectedTime?.format(context) != null &&
+                    _selectedIcon != null) {
                   boxHabits.put(
                     _inputField.text,
                     Habits(
                       name: _inputField.text,
                       interval: _selectedInterval!,
                       reminder: finalSelectedTime!.format(context),
+                      iconName: _selectedIcon!,
                       description: _descriptionField.text,
                     ),
                   );
@@ -137,11 +167,11 @@ class _AddScreenState extends State<AddScreen> {
             },
             child: Text('Save'),
           ),
-          Text(habitsList.name),
-          if (habitsList.description != null)
-            Text(habitsList.description ?? ""),
-          Text(habitsList.interval),
-          Text(habitsList.reminder),
+          // Text(habitsList.name),
+          // if (habitsList.description != null)
+          //   Text(habitsList.description ?? ""),
+          // Text(habitsList.interval),
+          // Text(habitsList.reminder),
         ],
       ),
     );
