@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/pages/edit_screen.dart';
 
-class ToDoCards extends StatelessWidget {
+class ToDoCards extends StatefulWidget {
   final String name;
   final String? description;
   final String taskDateandReminder;
@@ -13,19 +13,41 @@ class ToDoCards extends StatelessWidget {
   });
 
   @override
+  State<ToDoCards> createState() => _ToDoCardsState();
+}
+
+class _ToDoCardsState extends State<ToDoCards> {
+  bool isCompleted = false;
+  @override
   Widget build(BuildContext context) {
-    if (description != null) {
-      return ListTile(
+    // if (description != null) {
+    //   return ListTile(
+    //     title: Row(
+    //       children: [Text(name), Text(taskDateandReminder)],
+    //     ),
+    //     subtitle: Text(description!),
+    //     trailing: Icon(Icons.more_vert),
+    //   );
+    // } else {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isCompleted = !isCompleted;
+        });
+      },
+      child: ListTile(
         title: Row(
-          children: [Text(name), Text(taskDateandReminder)],
-        ),
-        subtitle: Text(description!),
-        trailing: Icon(Icons.more_vert),
-      );
-    } else {
-      return ListTile(
-        title: Row(
-          children: [Text(name), Text(taskDateandReminder)],
+          children: [
+            Text(
+              widget.name,
+              style: isCompleted
+                  ? TextStyle(
+                      color: Colors.green,
+                    )
+                  : TextStyle(),
+            ),
+            Text(widget.taskDateandReminder),
+          ],
         ),
         trailing: PopupMenuButton(
           onSelected: (value) async {
@@ -75,7 +97,7 @@ class ToDoCards extends StatelessWidget {
             ),
           ],
         ),
-      );
-    }
+      ),
+    );
   }
 }

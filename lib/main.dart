@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/database/boxes.dart';
+import 'package:habitican/database/dailyRecord.dart';
 import 'package:habitican/database/dailyTasks.dart';
 import 'package:habitican/database/habits.dart';
 import 'package:habitican/database/tasks.dart';
@@ -16,9 +17,11 @@ void main() async {
   Hive.registerAdapter(HabitsAdapter());
   Hive.registerAdapter(TasksAdapter());
   Hive.registerAdapter(DailyTasksAdapter());
+  Hive.registerAdapter(DailyRecordAdapter());
   boxHabits = await Hive.openBox<Habits>('habitsBox');
   boxTasks = await Hive.openBox<Tasks>('tasksBox');
   boxDailyTasks = await Hive.openBox<DailyTasks>('dailyTasksBox');
+  boxDailyRecords = await Hive.openBox<DailyRecord>('dailyRecordBox');
   runApp(const MyApp());
 }
 
