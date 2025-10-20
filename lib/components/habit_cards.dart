@@ -23,13 +23,18 @@ class Habitcards extends StatelessWidget {
         title: Text(name),
         subtitle: Text(description!),
         leading: SvgPicture.asset('assets/icons/$habitIconName'),
-        trailing: Icon(Icons.menu),
+        trailing: Icon(Icons.more_vert),
       );
     } else {
       return ListTile(
         title: Text(name),
         leading: SvgPicture.asset('assets/icons/$habitIconName'),
-        trailing: Icon(Icons.menu),
+        trailing: PopupMenuButton(
+          itemBuilder: (context) => [
+            PopupMenuItem(child: Text("Edit")),
+            PopupMenuItem(child: Text("Delete")),
+          ],
+        ),
       );
     }
   }

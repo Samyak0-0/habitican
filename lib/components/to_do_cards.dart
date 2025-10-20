@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:habitican/pages/edit_screen.dart';
 
 class ToDoCards extends StatelessWidget {
   final String name;
   final String? description;
-  final String interval;
-  final String reminder;
+  final String taskDateandReminder;
   const ToDoCards({
     super.key,
     required this.name,
     this.description,
-    required this.interval,
-    required this.reminder,
+    required this.taskDateandReminder,
   });
 
   @override
@@ -18,17 +17,64 @@ class ToDoCards extends StatelessWidget {
     if (description != null) {
       return ListTile(
         title: Row(
-          children: [Text(name), Text(interval), Text(reminder)],
+          children: [Text(name), Text(taskDateandReminder)],
         ),
         subtitle: Text(description!),
-        trailing: Icon(Icons.menu),
+        trailing: Icon(Icons.more_vert),
       );
     } else {
       return ListTile(
         title: Row(
-          children: [Text(name), Text(interval), Text(reminder)],
+          children: [Text(name), Text(taskDateandReminder)],
         ),
-        trailing: Icon(Icons.menu),
+        trailing: PopupMenuButton(
+          onSelected: (value) async {
+            if (value == "edit") {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return EditScreen();
+                  },
+                ),
+              );
+            }
+            if (value == "delete") {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Delete Task'),
+                    content: Text('Are you sure you want to delete this task?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Cancel"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Ok"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 'edit',
+              child: Text("Edit"),
+            ),
+            PopupMenuItem(
+              value: 'delete',
+              child: Text("Delete"),
+            ),
+          ],
+        ),
       );
     }
   }

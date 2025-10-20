@@ -167,10 +167,16 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                       boxTasks.put(
                         _inputField.text,
                         Tasks(
-                          id: 1,
+                          id: newTaskId,
                           name: _inputField.text,
-                          taskDate: selectedDate.toString(),
-                          reminder: finalSelectedTime!.format(context),
+                          taskDateandReminder: DateTime(
+                            selectedDate!.year,
+                            selectedDate!.month,
+                            selectedDate!.day,
+                            finalSelectedTime!.hour,
+                            finalSelectedTime!.minute,
+                          ).toString(),
+                          // reminder: finalSelectedTime!.format(context),
                           description: _descriptionField.text,
                         ),
                       );
@@ -178,7 +184,7 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                       boxDailyTasks.put(
                         _inputField.text,
                         DailyTasks(
-                          id: 1,
+                          id: newDailyTaskId,
                           name: _inputField.text,
                           reminder: finalSelectedTime!.format(context),
                           description: _descriptionField.text,

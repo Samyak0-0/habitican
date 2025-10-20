@@ -7,8 +7,7 @@ class Tasks {
   Tasks({
     required this.id,
     required this.name,
-    required this.reminder,
-    required this.taskDate,
+    required this.taskDateandReminder,
     this.description,
   });
 
@@ -22,8 +21,5 @@ class Tasks {
   String? description;
 
   @HiveField(3)
-  String taskDate;
-
-  @HiveField(4)
-  String reminder;
+  String taskDateandReminder;
 }

@@ -19,8 +19,7 @@ class TasksAdapter extends TypeAdapter<Tasks> {
     return Tasks(
       id: fields[0] as int,
       name: fields[1] as String,
-      reminder: fields[4] as String,
-      taskDate: fields[3] as String,
+      taskDateandReminder: fields[3] as String,
       description: fields[2] as String?,
     );
   }
@@ -28,7 +27,7 @@ class TasksAdapter extends TypeAdapter<Tasks> {
   @override
   void write(BinaryWriter writer, Tasks obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -36,9 +35,7 @@ class TasksAdapter extends TypeAdapter<Tasks> {
       ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.taskDate)
-      ..writeByte(4)
-      ..write(obj.reminder);
+      ..write(obj.taskDateandReminder);
   }
 
   @override
