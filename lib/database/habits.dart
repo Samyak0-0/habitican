@@ -5,6 +5,7 @@ part 'habits.g.dart';
 @HiveType(typeId: 1)
 class Habits {
   Habits({
+    required this.id,
     required this.name,
     required this.interval,
     required this.reminder,
@@ -13,17 +14,20 @@ class Habits {
   });
 
   @HiveField(0)
-  String name;
+  int id;
 
   @HiveField(1)
-  String? description;
+  String name;
 
   @HiveField(2)
-  String interval;
+  String? description;
 
   @HiveField(3)
-  String reminder;
+  String interval;
 
   @HiveField(4)
+  String reminder;
+
+  @HiveField(5)
   String iconName;
 }

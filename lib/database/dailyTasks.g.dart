@@ -17,19 +17,22 @@ class DailyTasksAdapter extends TypeAdapter<DailyTasks> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return DailyTasks(
-      name: fields[0] as String,
+      id: fields[0] as int,
+      name: fields[1] as String,
       reminder: fields[3] as String,
-      description: fields[1] as String?,
+      description: fields[2] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, DailyTasks obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.id)
       ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)
       ..write(obj.reminder);

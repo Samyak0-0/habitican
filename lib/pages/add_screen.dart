@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:habitican/database/boxes.dart';
-import 'package:habitican/database/habits.dart';
-import 'package:habitican/utils/day_picker.dart';
-import 'package:habitican/utils/icon_list.dart';
+import 'package:habitican/pages/habit_add_screen.dart';
+import 'package:habitican/pages/task_add_screen.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
@@ -13,167 +10,59 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  final TextEditingController _inputField = TextEditingController();
-  final TextEditingController _descriptionField = TextEditingController();
-  final List<String> _intervalTypeList = [
-    'Daily',
-    'Weekly',
+  final List<String> _optionsList = [
+    'Habit',
+    'Task',
   ];
-  String? _selectedInterval;
+  String _selectedAddType = "Habit";
   TimeOfDay selectedTime = TimeOfDay.now();
   TimeOfDay? finalSelectedTime;
-  String? _selectedIcon;
   // Habits habitsList = boxHabits.getAt(0);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text('X'),
-              Expanded(
-                child: Text(
-                  'Start a New Habit!',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-          const Text(
-            'Habit Name',
-          ),
-          TextField(
-            controller: _inputField,
-          ),
-          const Text('Description'),
-          TextField(
-            controller: _descriptionField,
-          ),
-
-          const Text('Interval'),
-          SizedBox(
-            // width: 200,
-            child: DropdownButtonFormField(
-              // itemHeight: 50,
-              hint: Text('Select an option'),
-              initialValue: _selectedInterval,
-              items: _intervalTypeList
-                  .map(
-                    (String e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedInterval = newValue; // Update the selected value
-                });
-              },
-              decoration: InputDecoration(
-                border: OutlineInputBorder(), // Optional border decoration
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Text('X'),
+            Text(
+              _selectedAddType == "Habit"
+                  ? 'Start a New\t\t\t'
+                  : 'Add a New\t\t\t',
+              textAlign: TextAlign.center,
             ),
-          ),
-
-          _selectedInterval == "Weekly" ? DayPicker() : SizedBox.shrink(),
-
-          Row(
-            children: [
-              const Expanded(child: Text('Reminders')),
-              ElevatedButton(
-                onPressed: () async {
-                  final TimeOfDay? timeOfDay = await showTimePicker(
-                    context: context,
-                    initialTime: selectedTime,
-                  );
-                  if (timeOfDay != null) {
-                    setState(() {
-                      selectedTime = timeOfDay;
-                      finalSelectedTime = timeOfDay;
-                    });
-                  }
-                },
-                child: Text(
-                  finalSelectedTime != null
-                      ? '${finalSelectedTime?.format(context)}'
-                      : "None",
-                ),
-              ),
-              IconButton(
-                onPressed: () {
+            SizedBox(
+              width: 100,
+              child: DropdownButtonFormField(
+                // itemHeight: 50,
+                // hint: Text('Select an option'),
+                initialValue: _selectedAddType,
+                items: _optionsList
+                    .map(
+                      (String e) => DropdownMenuItem(
+                        value: e,
+                        child: Text("$e!"),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (newValue) {
                   setState(() {
-                    finalSelectedTime = null;
+                    _selectedAddType = newValue
+                        .toString(); // Update the selected value
                   });
                 },
-                icon: Icon(Icons.delete),
+                // decoration: InputDecoration(
+                //   border: OutlineInputBorder(), // Optional border decoration
+                // ),
               ),
-            ],
-          ),
-
-          const Text('Icons'),
-          SizedBox(
-            width: double.infinity,
-            height: 300,
-            child: GridView.builder(
-              itemCount: iconListSVG.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-              ),
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      _selectedIcon != iconListSVG[index]
-                          ? _selectedIcon = iconListSVG[index]
-                          : _selectedIcon = null;
-                    },
-                    child: SvgPicture.asset(
-                      "assets/icons/${iconListSVG[index]}",
-                    ),
-                  ),
-                );
-              },
             ),
-          ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                if (_selectedInterval != null &&
-                    finalSelectedTime?.format(context) != null &&
-                    _selectedIcon != null) {
-                  boxHabits.put(
-                    _inputField.text,
-                    Habits(
-                      name: _inputField.text,
-                      interval: _selectedInterval!,
-                      reminder: finalSelectedTime!.format(context),
-                      iconName: _selectedIcon!,
-                      description: _descriptionField.text,
-                    ),
-                  );
-                }
-              });
-              // print('asa');
-              // debugPrint(_inputField.text);
-              // debugPrint(_descriptionField.text);
-              // debugPrint(_selectedInterval);
-              // debugPrint(finalSelectedTime?.format(context));
-            },
-            child: Text('Save'),
-          ),
-          // Text(habitsList.name),
-          // if (habitsList.description != null)
-          //   Text(habitsList.description ?? ""),
-          // Text(habitsList.interval),
-          // Text(habitsList.reminder),
-        ],
+          ],
+        ),
       ),
+      body: _selectedAddType == "Habit" ? HabitAddScreen() : TaskAddScreen(),
     );
   }
 }
