@@ -15,15 +15,19 @@ class ToDoCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (description != "") {
+    if (description != null) {
       return ListTile(
-        title: Text(name),
+        title: Row(
+          children: [Text(name), Text(interval), Text(reminder)],
+        ),
         subtitle: Text(description!),
         trailing: Icon(Icons.menu),
       );
     } else {
       return ListTile(
-        title: Text(name),
+        title: Row(
+          children: [Text(name), Text(interval), Text(reminder)],
+        ),
         trailing: Icon(Icons.menu),
       );
     }

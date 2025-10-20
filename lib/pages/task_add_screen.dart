@@ -1,6 +1,17 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:habitican/database/boxes.dart';
+import 'package:habitican/database/dailyTasks.dart';
 import 'package:habitican/database/tasks.dart';
+import 'package:intl/intl.dart';
+
+enum _TaskTypeList {
+  oneTime('One-time'),
+  daily('Daily');
+
+  final String displayName;
+  const _TaskTypeList(this.displayName);
+}
 
 class TaskAddScreen extends StatefulWidget {
   const TaskAddScreen({super.key});
@@ -12,17 +23,68 @@ class TaskAddScreen extends StatefulWidget {
 class _TaskAddScreenState extends State<TaskAddScreen> {
   final TextEditingController _inputField = TextEditingController();
   final TextEditingController _descriptionField = TextEditingController();
-  final List<String> _taskTypeList = [
-    'One-time',
-    'Daily',
-  ];
-  String? _selectedTaskType;
+  _TaskTypeList? _selectedTaskType;
+
+  DateTime? selectedDate;
   TimeOfDay selectedTime = TimeOfDay.now();
   TimeOfDay? finalSelectedTime;
+  final newTaskId = (boxTasks.isEmpty)
+      ? 1
+      : boxTasks.values.map((h) => h.id).reduce((a, b) => a > b ? a : b) + 1;
+  final newDailyTaskId = (boxDailyTasks.isEmpty)
+      ? 1
+      : boxDailyTasks.values.map((h) => h.id).reduce((a, b) => a > b ? a : b) +
+            1;
   // Habits habitsList = boxHabits.getAt(0);
 
   @override
   Widget build(BuildContext context) {
+    Future<void> handleDateTimeSelection() async {
+      if (!mounted || !context.mounted) return;
+      DateTime today = DateTime.now();
+
+      final DateTime? taskDate = await showDatePicker(
+        context: context,
+        firstDate: DateTime(
+          today.year,
+          today.month,
+          today.day,
+        ),
+        lastDate: DateTime(today.year + 2),
+      );
+
+      if (!mounted || !context.mounted || taskDate == null) return;
+
+      final TimeOfDay? timeOfDay = await showTimePicker(
+        context: context,
+        initialTime: selectedTime,
+      );
+
+      if (!mounted || timeOfDay == null) return;
+
+      setState(() {
+        selectedTime = timeOfDay;
+        finalSelectedTime = timeOfDay;
+        selectedDate = taskDate;
+      });
+    }
+
+    Future<void> handleTimeSelection() async {
+      if (!mounted || !context.mounted) return;
+
+      final TimeOfDay? timeOfDay = await showTimePicker(
+        context: context,
+        initialTime: selectedTime,
+      );
+
+      if (!mounted || timeOfDay == null) return;
+
+      setState(() {
+        selectedTime = timeOfDay;
+        finalSelectedTime = timeOfDay;
+      });
+    }
+
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Padding(
@@ -48,15 +110,15 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                 // itemHeight: 50,
                 hint: Text('Select an option'),
                 initialValue: _selectedTaskType,
-                items: _taskTypeList
+                items: _TaskTypeList.values
                     .map(
-                      (String e) => DropdownMenuItem(
-                        value: e,
-                        child: Text('$e task'),
+                      (taskType) => DropdownMenuItem(
+                        value: taskType,
+                        child: Text('${taskType.displayName} task'),
                       ),
                     )
                     .toList(),
-                onChanged: (String? newValue) {
+                onChanged: (newValue) {
                   setState(() {
                     _selectedTaskType = newValue; // Update the selected value
                   });
@@ -71,21 +133,16 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
               children: [
                 const Expanded(child: Text('Reminders')),
                 ElevatedButton(
-                  onPressed: () async {
-                    final TimeOfDay? timeOfDay = await showTimePicker(
-                      context: context,
-                      initialTime: selectedTime,
-                    );
-                    if (timeOfDay != null) {
-                      setState(() {
-                        selectedTime = timeOfDay;
-                        finalSelectedTime = timeOfDay;
-                      });
-                    }
-                  },
+                  onPressed: _selectedTaskType == _TaskTypeList.oneTime
+                      ? handleDateTimeSelection
+                      : handleTimeSelection,
                   child: Text(
-                    finalSelectedTime != null
-                        ? '${finalSelectedTime?.format(context)}'
+                    _selectedTaskType == _TaskTypeList.daily
+                        ? finalSelectedTime != null
+                              ? '${finalSelectedTime?.format(context)}'
+                              : "None"
+                        : selectedDate != null
+                        ? '${DateFormat("E, MMM dd").format(selectedDate!)}, ${finalSelectedTime?.format(context)}'
                         : "None",
                   ),
                 ),
@@ -93,6 +150,7 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                   onPressed: () {
                     setState(() {
                       finalSelectedTime = null;
+                      selectedDate = null;
                     });
                   },
                   icon: Icon(Icons.delete),
@@ -105,16 +163,28 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                 setState(() {
                   if (_selectedTaskType != null &&
                       finalSelectedTime?.format(context) != null) {
-                    boxTasks.put(
-                      _inputField.text,
-                      Tasks(
-                        id: 1,
-                        name: _inputField.text,
-                        taskDate: _selectedTaskType!,
-                        reminder: finalSelectedTime!.format(context),
-                        description: _descriptionField.text,
-                      ),
-                    );
+                    if (_selectedTaskType == _TaskTypeList.oneTime) {
+                      boxTasks.put(
+                        _inputField.text,
+                        Tasks(
+                          id: 1,
+                          name: _inputField.text,
+                          taskDate: selectedDate.toString(),
+                          reminder: finalSelectedTime!.format(context),
+                          description: _descriptionField.text,
+                        ),
+                      );
+                    } else {
+                      boxDailyTasks.put(
+                        _inputField.text,
+                        DailyTasks(
+                          id: 1,
+                          name: _inputField.text,
+                          reminder: finalSelectedTime!.format(context),
+                          description: _descriptionField.text,
+                        ),
+                      );
+                    }
                   }
                 });
                 // print('asa');

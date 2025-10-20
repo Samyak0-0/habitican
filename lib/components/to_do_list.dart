@@ -16,10 +16,12 @@ class _ToDoListState extends State<ToDoList> {
       itemCount: boxTasks.length,
       itemBuilder: (context, index) {
         Tasks task = boxTasks.getAt(index);
+        print(task.taskDate);
+        // return const Placeholder();
         return ToDoCards(
           name: task.name,
-          interval: task.interval,
           reminder: task.reminder,
+          interval: task.taskDate,
         );
       },
     );

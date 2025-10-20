@@ -23,10 +23,13 @@ class _HabitAddScreenState extends State<HabitAddScreen> {
   TimeOfDay selectedTime = TimeOfDay.now();
   TimeOfDay? finalSelectedTime;
   String? _selectedIcon;
-  // Habits habitsList = boxHabits.getAt(0);
+  final newHabitId = (boxHabits.isEmpty)
+      ? 1
+      : boxHabits.values.map((h) => h.id).reduce((a, b) => a > b ? a : b) + 1;
 
   @override
   Widget build(BuildContext context) {
+    print(newHabitId);
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Padding(
@@ -139,7 +142,7 @@ class _HabitAddScreenState extends State<HabitAddScreen> {
                     boxHabits.put(
                       _inputField.text,
                       Habits(
-                        id: 1,
+                        id: newHabitId,
                         name: _inputField.text,
                         interval: _selectedInterval!,
                         reminder: finalSelectedTime!.format(context),
