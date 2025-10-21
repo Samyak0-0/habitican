@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:habitican/database/tasks.dart';
 // import 'package:hive/hive.dart';
 
 class GlobalStateProvider extends ChangeNotifier {
   // BoxCollection? myCollection;
+
+  // List<Tasks> completedTasks = [];
+
+  // void pushTask(Tasks task) {
+  //   completedTasks.add(task);
+  // }
+
+  // void removeTask(Tasks task) {
+  //   completedTasks.remove(task);
+  // }
 
   // GlobalStateProvider() {
   //   _initHive();

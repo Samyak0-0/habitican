@@ -11,6 +11,8 @@ class ToDoList extends StatefulWidget {
 }
 
 class _ToDoListState extends State<ToDoList> {
+  List<Tasks> completedTasks = [];
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -20,9 +22,12 @@ class _ToDoListState extends State<ToDoList> {
           itemCount: boxTasks.length,
           itemBuilder: (context, index) {
             Tasks task = boxTasks.getAt(index);
+            print(boxTasks.keys);
+            print(task.toString());
 
             // return const Placeholder();
             return ToDoCards(
+              id: task.id,
               name: task.name,
               taskDateandReminder: task.taskDateandReminder,
             );

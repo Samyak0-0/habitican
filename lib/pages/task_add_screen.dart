@@ -28,10 +28,10 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
   DateTime? selectedDate;
   TimeOfDay selectedTime = TimeOfDay.now();
   TimeOfDay? finalSelectedTime;
-  final newTaskId = (boxTasks.isEmpty)
+  int newTaskId = (boxTasks.isEmpty)
       ? 1
       : boxTasks.values.map((h) => h.id).reduce((a, b) => a > b ? a : b) + 1;
-  final newDailyTaskId = (boxDailyTasks.isEmpty)
+  int newDailyTaskId = (boxDailyTasks.isEmpty)
       ? 1
       : boxDailyTasks.values.map((h) => h.id).reduce((a, b) => a > b ? a : b) +
             1;
@@ -165,7 +165,7 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                       finalSelectedTime?.format(context) != null) {
                     if (_selectedTaskType == _TaskTypeList.oneTime) {
                       boxTasks.put(
-                        _inputField.text,
+                        newTaskId,
                         Tasks(
                           id: newTaskId,
                           name: _inputField.text,
@@ -180,9 +180,10 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                           description: _descriptionField.text,
                         ),
                       );
+                      newTaskId += 1;
                     } else {
                       boxDailyTasks.put(
-                        _inputField.text,
+                        newDailyTaskId,
                         DailyTasks(
                           id: newDailyTaskId,
                           name: _inputField.text,
@@ -190,6 +191,7 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                           description: _descriptionField.text,
                         ),
                       );
+                      newDailyTaskId += 1;
                     }
                   }
                 });
