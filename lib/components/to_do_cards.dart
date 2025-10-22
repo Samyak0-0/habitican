@@ -23,29 +23,30 @@ class ToDoCards extends StatefulWidget {
 }
 
 class _ToDoCardsState extends State<ToDoCards> {
-  late bool isCompleted;
+  // late bool isCompleted;
 
-  @override
-  void initState() {
-    super.initState();
-    isCompleted = widget.isCompleted;
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   isCompleted = widget.isCompleted;
+  // }
 
-  Future<void> toggleCompletion() async {
-    // Prevent rebuild race condition
-    final task = boxTasks.get(widget.id);
-    if (task != null) {
-      task.isCompleted = !isCompleted;
-      await task.save(); // triggers ValueListenableBuilder rebuild
-    }
+  // Future<void> toggleCompletion() async {
+  //   // Prevent rebuild race condition
+  //   final task = boxTasks.get(widget.id);
+  //   if (task != null) {
+  //     task.isCompleted = !widget.isCompleted;
+  //     await task.save(); // triggers ValueListenableBuilder rebuild
+  //   }
+  // }
 
-    // Update local state AFTER saving (to avoid rebuild loops)
-    if (mounted) {
-      setState(() {
-        isCompleted = !isCompleted;
-      });
-    }
-  }
+  //   // Update local state AFTER saving (to avoid rebuild loops)
+  //   // if (mounted) {
+  //   //   setState(() {
+  //   //     isCompleted = !isCompleted;
+  //   //   });
+  //   // }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +116,7 @@ class _ToDoCardsState extends State<ToDoCards> {
         children: [
           Text(
             widget.name,
-            style: isCompleted
+            style: widget.isCompleted
                 ? TextStyle(
                     // color: Colors.green,
                     decoration: TextDecoration.lineThrough,
@@ -125,7 +126,17 @@ class _ToDoCardsState extends State<ToDoCards> {
           Text(widget.taskDateandReminder),
         ],
       ),
-      onTap: toggleCompletion,
+      onTap: () {
+        boxTasks.put(
+          widget.id,
+          Tasks(
+            id: widget.id,
+            name: widget.name,
+            taskDateandReminder: widget.taskDateandReminder,
+            isCompleted: !widget.isCompleted,
+          ),
+        );
+      },
       trailing: optionsForTasks,
     );
   }

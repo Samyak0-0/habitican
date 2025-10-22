@@ -37,9 +37,9 @@ class _ToDoListState extends State<ToDoList> {
                 context,
                 index,
               ) {
-                Tasks task = boxTasks.getAt(index);
-                print(boxTasks.keys);
-                print(task.toString());
+                Tasks task = tasks[index];
+                // print(boxTasks.keys);
+                // print(task.toString());
 
                 // return const Placeholder();
                 return ToDoCards(
