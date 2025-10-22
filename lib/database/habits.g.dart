@@ -22,6 +22,7 @@ class HabitsAdapter extends TypeAdapter<Habits> {
       interval: fields[3] as String,
       reminder: fields[4] as String,
       iconName: fields[5] as String,
+      isCompleted: fields[6] as bool,
       description: fields[2] as String?,
     );
   }
@@ -29,7 +30,7 @@ class HabitsAdapter extends TypeAdapter<Habits> {
   @override
   void write(BinaryWriter writer, Habits obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class HabitsAdapter extends TypeAdapter<Habits> {
       ..writeByte(4)
       ..write(obj.reminder)
       ..writeByte(5)
-      ..write(obj.iconName);
+      ..write(obj.iconName)
+      ..writeByte(6)
+      ..write(obj.isCompleted);
   }
 
   @override

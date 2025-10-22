@@ -10,6 +10,7 @@ class Habits {
     required this.interval,
     required this.reminder,
     required this.iconName,
+    this.isCompleted = false,
     this.description,
   });
 
@@ -30,4 +31,7 @@ class Habits {
 
   @HiveField(5)
   String iconName;
+
+  @HiveField(6)
+  bool isCompleted;
 }

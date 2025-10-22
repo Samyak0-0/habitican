@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/database/boxes.dart';
+import 'package:habitican/database/tasks.dart';
 import 'package:habitican/pages/edit_screen.dart';
 
 class ToDoCards extends StatefulWidget {
@@ -7,12 +8,14 @@ class ToDoCards extends StatefulWidget {
   final String name;
   final String? description;
   final String taskDateandReminder;
+  final bool isCompleted;
   const ToDoCards({
     super.key,
     required this.name,
     this.description,
     required this.taskDateandReminder,
     required this.id,
+    required this.isCompleted,
   });
 
   @override
@@ -20,7 +23,30 @@ class ToDoCards extends StatefulWidget {
 }
 
 class _ToDoCardsState extends State<ToDoCards> {
-  bool isCompleted = false;
+  late bool isCompleted;
+
+  @override
+  void initState() {
+    super.initState();
+    isCompleted = widget.isCompleted;
+  }
+
+  Future<void> toggleCompletion() async {
+    // Prevent rebuild race condition
+    final task = boxTasks.get(widget.id);
+    if (task != null) {
+      task.isCompleted = !isCompleted;
+      await task.save(); // triggers ValueListenableBuilder rebuild
+    }
+
+    // Update local state AFTER saving (to avoid rebuild loops)
+    if (mounted) {
+      setState(() {
+        isCompleted = !isCompleted;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget optionsForTasks = PopupMenuButton(
@@ -84,29 +110,23 @@ class _ToDoCardsState extends State<ToDoCards> {
     //   );
     // } else {
 
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isCompleted = !isCompleted;
-          // completedTasks
-        });
-      },
-      child: ListTile(
-        title: Row(
-          children: [
-            Text(
-              widget.name,
-              style: isCompleted
-                  ? TextStyle(
-                      color: Colors.green,
-                    )
-                  : TextStyle(),
-            ),
-            Text(widget.taskDateandReminder),
-          ],
-        ),
-        trailing: optionsForTasks,
+    return ListTile(
+      title: Row(
+        children: [
+          Text(
+            widget.name,
+            style: isCompleted
+                ? TextStyle(
+                    // color: Colors.green,
+                    decoration: TextDecoration.lineThrough,
+                  )
+                : TextStyle(),
+          ),
+          Text(widget.taskDateandReminder),
+        ],
       ),
+      onTap: toggleCompletion,
+      trailing: optionsForTasks,
     );
   }
 }

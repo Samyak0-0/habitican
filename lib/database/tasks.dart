@@ -8,6 +8,7 @@ class Tasks {
     required this.id,
     required this.name,
     required this.taskDateandReminder,
+    this.isCompleted = false,
     this.description,
   });
 
@@ -22,4 +23,7 @@ class Tasks {
 
   @HiveField(3)
   String taskDateandReminder;
+
+  @HiveField(4)
+  bool isCompleted;
 }

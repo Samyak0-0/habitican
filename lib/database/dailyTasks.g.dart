@@ -20,6 +20,7 @@ class DailyTasksAdapter extends TypeAdapter<DailyTasks> {
       id: fields[0] as int,
       name: fields[1] as String,
       reminder: fields[3] as String,
+      isCompleted: fields[4] as bool,
       description: fields[2] as String?,
     );
   }
@@ -27,7 +28,7 @@ class DailyTasksAdapter extends TypeAdapter<DailyTasks> {
   @override
   void write(BinaryWriter writer, DailyTasks obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class DailyTasksAdapter extends TypeAdapter<DailyTasks> {
       ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.reminder);
+      ..write(obj.reminder)
+      ..writeByte(4)
+      ..write(obj.isCompleted);
   }
 
   @override
