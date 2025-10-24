@@ -8,6 +8,7 @@ import 'package:habitican/pages/add_screen.dart';
 import 'package:habitican/pages/dashboard.dart';
 // import 'package:habitican/pages/testing_code.dart';
 import 'package:habitican/pages/tracker_screen.dart';
+import 'package:habitican/utils/daily_records_manager.dart';
 import 'package:habitican/utils/global_state_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -22,6 +23,8 @@ void main() async {
   boxTasks = await Hive.openBox<Tasks>('tasksBox');
   boxDailyTasks = await Hive.openBox<DailyTasks>('dailyTasksBox');
   boxDailyRecords = await Hive.openBox<DailyRecord>('dailyRecordBox');
+
+  dailyRecordsManager();
   runApp(const MyApp());
 }
 
