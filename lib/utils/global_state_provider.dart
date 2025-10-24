@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:habitican/database/tasks.dart';
+// import 'package:habitican/database/tasks.dart';
 // import 'package:hive/hive.dart';
 
 class GlobalStateProvider extends ChangeNotifier {
+  DateTime selectedDate = DateTime.now();
+
+  void setSelectedDate(DateTime date) {
+    selectedDate = date;
+    notifyListeners();
+  }
   // BoxCollection? myCollection;
 
   // List<Tasks> completedTasks = [];

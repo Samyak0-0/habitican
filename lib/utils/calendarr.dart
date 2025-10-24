@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:habitican/utils/day_progress_circular_bar.dart';
+import 'package:habitican/utils/global_state_provider.dart';
+import 'package:provider/provider.dart';
 // import 'package:noted/core/app_colors.dart';
 
 class MonthlyScreen extends StatefulWidget {
@@ -13,6 +15,7 @@ class MonthlyScreen extends StatefulWidget {
 class _MonthlyScreenState extends State<MonthlyScreen> {
   late DateTime currentMonth;
   late List<DateTime> datesGrid;
+  // DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -66,6 +69,7 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final globalState = Provider.of<GlobalStateProvider>(context);
     return Column(
       children: [
         Row(
@@ -113,24 +117,66 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
             itemBuilder: (context, index) {
               DateTime date = datesGrid[index];
               bool isCurrentMonth = date.month == currentMonth.month;
+              bool isSelected = _isSameDate(globalState.selectedDate, date);
+
+              if (isSelected) {
+                return Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        // update provider
+                        globalState.setSelectedDate(date);
+                      });
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: isCurrentMonth
+                          ? const Color.fromARGB(230, 205, 8, 8)
+                          : const Color.fromARGB(228, 213, 4, 4),
+                      child: isCurrentMonth
+                          ? DayProgressCircularBar(
+                              date: date.day.toString(),
+                            )
+                          : Text(
+                              date.day.toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: isCurrentMonth
+                                    ? Colors.black
+                                    : Colors.grey,
+                              ),
+                            ),
+                    ),
+                  ),
+                );
+              }
               return Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: CircleAvatar(
-                  backgroundColor: isCurrentMonth
-                      ? Colors.transparent
-                      : Colors.transparent,
-                  child: isCurrentMonth
-                      ? DayProgressCircularBar(
-                          date: date.day.toString(),
-                        )
-                      : Text(
-                          date.day.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: isCurrentMonth ? Colors.black : Colors.grey,
+                child: GestureDetector(
+                  onTap: () {
+                    // update provider
+                    globalState.setSelectedDate(date);
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: isCurrentMonth
+                        ? Colors.transparent
+                        : Colors.transparent,
+                    child: isCurrentMonth
+                        ? DayProgressCircularBar(
+                            date: date.day.toString(),
+                          )
+                        : Text(
+                            date.day.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              color: isCurrentMonth
+                                  ? Colors.black
+                                  : Colors.grey,
+                            ),
                           ),
-                        ),
+                  ),
                 ),
               );
             },
@@ -138,6 +184,10 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
         ),
       ],
     );
+  }
+
+  bool _isSameDate(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
   String _monthName(int monthNumber) {

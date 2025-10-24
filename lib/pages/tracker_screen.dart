@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/utils/calendarr.dart';
 import 'package:habitican/utils/day_progress_circular_bar.dart';
+import 'package:habitican/utils/global_state_provider.dart';
+import 'package:provider/provider.dart';
 // import 'package:percent_indicator/circular_percent_indicator.dart';
 // import 'package:table_calendar/table_calendar.dart';
 
@@ -14,6 +16,9 @@ class TrackerScreen extends StatefulWidget {
 class _TrackerScreenState extends State<TrackerScreen> {
   @override
   Widget build(BuildContext context) {
+    final globalState = Provider.of<GlobalStateProvider>(context);
+    final selectedDate = globalState.selectedDate;
+
     return Column(
       children: [
         Row(
@@ -29,12 +34,12 @@ class _TrackerScreenState extends State<TrackerScreen> {
           height: 500,
           child: MonthlyScreen(),
         ),
-
         // DayProgressCircularBar(),
         Expanded(
           child: ListView(
-            children: const [
+            children: [
               Text('Daily Insights'),
+              Text(selectedDate.toString()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

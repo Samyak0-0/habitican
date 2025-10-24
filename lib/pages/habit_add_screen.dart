@@ -23,13 +23,13 @@ class _HabitAddScreenState extends State<HabitAddScreen> {
   TimeOfDay selectedTime = TimeOfDay.now();
   TimeOfDay? finalSelectedTime;
   String? _selectedIcon;
-  final newHabitId = (boxHabits.isEmpty)
+  int newHabitId = (boxHabits.isEmpty)
       ? 1
       : boxHabits.values.map((h) => h.id).reduce((a, b) => a > b ? a : b) + 1;
 
   @override
   Widget build(BuildContext context) {
-    print(newHabitId);
+    // print(newHabitId);
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Padding(
@@ -140,7 +140,7 @@ class _HabitAddScreenState extends State<HabitAddScreen> {
                       finalSelectedTime?.format(context) != null &&
                       _selectedIcon != null) {
                     boxHabits.put(
-                      _inputField.text,
+                      newHabitId,
                       Habits(
                         id: newHabitId,
                         name: _inputField.text,
@@ -150,6 +150,7 @@ class _HabitAddScreenState extends State<HabitAddScreen> {
                         description: _descriptionField.text,
                       ),
                     );
+                    newHabitId += 1;
                   }
                 });
                 // print('asa');
