@@ -45,4 +45,19 @@ class DailyRecord {
 
   @HiveField(9)
   List<bool>? isDailyTaskCompleted;
+
+  @override
+  String toString() {
+    String printString = '';
+    habitName?.forEach((e) {
+      printString += "\t$e\t";
+    });
+    taskName?.forEach((e) {
+      printString += "\t$e\t";
+    });
+    dailyTaskName?.forEach((e) {
+      printString += "\t$e\t";
+    });
+    return '$date -- $printString --';
+  }
 }
