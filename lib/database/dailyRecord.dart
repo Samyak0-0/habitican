@@ -5,57 +5,57 @@ part 'dailyRecord.g.dart';
 class DailyRecord {
   DailyRecord({
     required this.date,
-    this.habitId,
-    this.habitName,
-    this.isHabitCompleted,
-    this.taskId,
-    this.taskName,
-    this.isTaskCompleted,
-    this.dailyTaskId,
-    this.dailyTaskName,
-    this.isDailyTaskCompleted,
+    required this.habitId,
+    required this.habitName,
+    required this.isHabitCompleted,
+    required this.taskId,
+    required this.taskName,
+    required this.isTaskCompleted,
+    required this.dailyTaskId,
+    required this.dailyTaskName,
+    required this.isDailyTaskCompleted,
   });
 
   @HiveField(0)
   String date;
 
   @HiveField(1)
-  List<int>? habitId;
+  List<int> habitId;
 
   @HiveField(2)
-  List<String>? habitName;
+  List<String> habitName;
 
   @HiveField(3)
-  List<bool>? isHabitCompleted;
+  List<bool> isHabitCompleted;
 
   @HiveField(4)
-  List<int>? taskId;
+  List<int> taskId;
 
   @HiveField(5)
-  List<String>? taskName;
+  List<String> taskName;
 
   @HiveField(6)
-  List<bool>? isTaskCompleted;
+  List<bool> isTaskCompleted;
 
   @HiveField(7)
-  List<int>? dailyTaskId;
+  List<int> dailyTaskId;
 
   @HiveField(8)
-  List<String>? dailyTaskName;
+  List<String> dailyTaskName;
 
   @HiveField(9)
-  List<bool>? isDailyTaskCompleted;
+  List<bool> isDailyTaskCompleted;
 
   @override
   String toString() {
     String printString = '';
-    habitName?.forEach((e) {
+    habitName.forEach((e) {
       printString += "\t$e\t";
     });
-    taskName?.forEach((e) {
+    taskName.forEach((e) {
       printString += "\t$e\t";
     });
-    dailyTaskName?.forEach((e) {
+    dailyTaskName.forEach((e) {
       printString += "\t$e\t";
     });
     return '$date -- $printString --';

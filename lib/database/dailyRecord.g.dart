@@ -18,15 +18,15 @@ class DailyRecordAdapter extends TypeAdapter<DailyRecord> {
     };
     return DailyRecord(
       date: fields[0] as String,
-      habitId: (fields[1] as List?)?.cast<int>(),
-      habitName: (fields[2] as List?)?.cast<String>(),
-      isHabitCompleted: (fields[3] as List?)?.cast<bool>(),
-      taskId: (fields[4] as List?)?.cast<int>(),
-      taskName: (fields[5] as List?)?.cast<String>(),
-      isTaskCompleted: (fields[6] as List?)?.cast<bool>(),
-      dailyTaskId: (fields[7] as List?)?.cast<int>(),
-      dailyTaskName: (fields[8] as List?)?.cast<String>(),
-      isDailyTaskCompleted: (fields[9] as List?)?.cast<bool>(),
+      habitId: (fields[1] as List).cast<int>(),
+      habitName: (fields[2] as List).cast<String>(),
+      isHabitCompleted: (fields[3] as List).cast<bool>(),
+      taskId: (fields[4] as List).cast<int>(),
+      taskName: (fields[5] as List).cast<String>(),
+      isTaskCompleted: (fields[6] as List).cast<bool>(),
+      dailyTaskId: (fields[7] as List).cast<int>(),
+      dailyTaskName: (fields[8] as List).cast<String>(),
+      isDailyTaskCompleted: (fields[9] as List).cast<bool>(),
     );
   }
 
