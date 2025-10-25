@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:habitican/database/boxes.dart';
+import 'package:habitican/database/dailyRecord.dart';
 import 'package:habitican/utils/day_progress_circular_bar.dart';
 import 'package:habitican/utils/global_state_provider.dart';
 import 'package:provider/provider.dart';
@@ -119,38 +121,11 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
               bool isCurrentMonth = date.month == currentMonth.month;
               bool isSelected = _isSameDate(globalState.selectedDate, date);
 
-              if (isSelected) {
-                return Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        // update provider
-                        globalState.setSelectedDate(date);
-                      });
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: isCurrentMonth
-                          ? const Color.fromARGB(230, 205, 8, 8)
-                          : const Color.fromARGB(228, 213, 4, 4),
-                      child: isCurrentMonth
-                          ? DayProgressCircularBar(
-                              date: date.day.toString(),
-                            )
-                          : Text(
-                              date.day.toString(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                color: isCurrentMonth
-                                    ? Colors.black
-                                    : Colors.grey,
-                              ),
-                            ),
-                    ),
-                  ),
-                );
-              }
+              final appState = Provider.of<GlobalStateProvider>(context);
+              DailyRecord? dailyRecord = boxDailyRecords.get(
+                date.toString().split(" ")[0],
+              );
+
               return Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: GestureDetector(
@@ -159,12 +134,17 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                     globalState.setSelectedDate(date);
                   },
                   child: CircleAvatar(
-                    backgroundColor: isCurrentMonth
-                        ? Colors.transparent
+                    backgroundColor: isSelected
+                        ? Colors.black12
                         : Colors.transparent,
-                    child: isCurrentMonth
+                    child: isCurrentMonth && dailyRecord != null
                         ? DayProgressCircularBar(
                             date: date.day.toString(),
+                            habitPercent: appState.habitPercent,
+                            taskPercent:
+                                (appState.taskPercent +
+                                    appState.dailyTaskPercent) /
+                                2,
                           )
                         : Text(
                             date.day.toString(),

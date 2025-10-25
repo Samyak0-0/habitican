@@ -20,10 +20,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
   Widget build(BuildContext context) {
     final globalState = Provider.of<GlobalStateProvider>(context);
     final selectedDate = globalState.selectedDate;
-
-    DailyRecord? selectedDateRecord = boxDailyRecords.get(
-      selectedDate.toString().split(" ")[0],
-    );
+    final selectedDateRecord = globalState.selectedDateRecord;
 
     if (selectedDateRecord == null) {
       return Column(
@@ -53,32 +50,6 @@ class _TrackerScreenState extends State<TrackerScreen> {
       );
     }
 
-    int completedHabits =
-        selectedDateRecord.isHabitCompleted?.where((e) => e == true).length ??
-        0;
-    int completedTasks =
-        selectedDateRecord.isTaskCompleted?.where((e) => e == true).length ?? 0;
-    int completedDailyTasks =
-        selectedDateRecord.isDailyTaskCompleted
-            ?.where((e) => e == true)
-            .length ??
-        0;
-
-    int habitLength = selectedDateRecord.isHabitCompleted!.length;
-    int taskLength = selectedDateRecord.isTaskCompleted!.length;
-    int dailyTasksLength = selectedDateRecord.isDailyTaskCompleted!.length;
-
-    double habitPercent = selectedDateRecord.isHabitCompleted!.isNotEmpty
-        ? completedHabits / habitLength
-        : 0;
-    double taskPercent = selectedDateRecord.isTaskCompleted!.isNotEmpty
-        ? completedHabits / taskLength
-        : 0;
-    double dailyTaskPercent =
-        selectedDateRecord.isDailyTaskCompleted!.isNotEmpty
-        ? completedHabits / dailyTasksLength
-        : 0;
-
     return Column(
       children: [
         Row(
@@ -105,16 +76,24 @@ class _TrackerScreenState extends State<TrackerScreen> {
                 children: [
                   Column(
                     children: [
-                      Text("Habits Completed: $completedHabits / $habitLength"),
                       Text(
-                        "Task Completed: ${completedTasks + completedDailyTasks} / ${taskLength + dailyTasksLength}",
+                        "Habits Completed: ${globalState.completedHabits} / ${globalState.habitLength}",
+                      ),
+                      Text(
+                        "Task Completed: ${globalState.completedTasks + globalState.completedDailyTasks} / ${globalState.taskLength + globalState.dailyTasksLength}",
                       ),
                     ],
                   ),
                   DayProgressCircularBar(
-                    date: '1',
-                    habitPercent: habitPercent,
-                    taskPercent: (taskPercent + dailyTaskPercent) / 2,
+                    date: selectedDate.day.toString(),
+                    habitPercent: globalState.habitPercent,
+                    taskPercent:
+                        (globalState.taskPercent +
+                            globalState.dailyTaskPercent) /
+                        2,
+                    transparent: false,
+                    sizeMultiplier: 2,
+                    widthMulitplier: 2,
                   ),
                 ],
               ),
