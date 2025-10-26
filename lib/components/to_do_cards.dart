@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:habitican/database/boxes.dart';
 import 'package:habitican/database/tasks.dart';
 import 'package:habitican/pages/edit_screen.dart';
+import 'package:habitican/utils/daily_records_manager.dart';
+import 'package:habitican/utils/global_state_provider.dart';
+import 'package:provider/provider.dart';
 
 class ToDoCards extends StatefulWidget {
   final int id;
@@ -136,6 +139,11 @@ class _ToDoCardsState extends State<ToDoCards> {
             isCompleted: !widget.isCompleted,
           ),
         );
+        boxDailyRecords.deleteAt(boxDailyRecords.length - 1);
+        // Provider.of<GlobalStateProvider>(
+        //   context,
+        //   listen: false,
+        // ).updateRecord(DateTime.now());
       },
       trailing: optionsForTasks,
     );

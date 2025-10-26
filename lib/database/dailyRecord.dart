@@ -58,6 +58,9 @@ class DailyRecord {
     dailyTaskName.forEach((e) {
       printString += "\t$e\t";
     });
+    isTaskCompleted.forEach((e) {
+      printString += "\t$e\t";
+    });
     return '$date -- $printString --';
   }
 }
