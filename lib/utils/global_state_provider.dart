@@ -46,6 +46,10 @@ class GlobalStateProvider extends ChangeNotifier {
   double get dailyTaskPercent =>
       dailyTasksLength > 0 ? completedDailyTasks / dailyTasksLength : 0;
 
+  double get totalTaskPercent => (taskLength + dailyTasksLength) > 0
+      ? (completedTasks + completedDailyTasks) / (taskLength + dailyTasksLength)
+      : 0;
+
   final habitsList = boxHabits.values;
   final tasksList = boxTasks.values;
   final dailyTasksList = boxDailyTasks.values;
@@ -66,23 +70,37 @@ class GlobalStateProvider extends ChangeNotifier {
         habitName: habitsList.isNotEmpty
             ? (habitsList.map((e) => e.name).toList()).cast<String>()
             : [],
-        isHabitCompleted: List.filled(habitsList.length, false),
+        isHabitCompleted: habitsList.isNotEmpty
+            ? (habitsList.map((e) => e.isCompleted).toList()).cast()
+            : [],
         taskId: tasksList.isNotEmpty
             ? (tasksList.map((e) => e.id).toList()).cast<int>()
             : [],
         taskName: tasksList.isNotEmpty
             ? (tasksList.map((e) => e.name).toList()).cast<String>()
             : [],
-        isTaskCompleted: List.filled(tasksList.length, false),
+        isTaskCompleted: tasksList.isNotEmpty
+            ? (tasksList.map((e) => e.isCompleted).toList()).cast()
+            : [],
         dailyTaskId: dailyTasksList.isNotEmpty
             ? (dailyTasksList.map((e) => e.id).toList()).cast<int>()
             : [],
         dailyTaskName: dailyTasksList.isNotEmpty
             ? (dailyTasksList.map((e) => e.name).toList()).cast<String>()
             : [],
-        isDailyTaskCompleted: List.filled(dailyTasksList.length, false),
+        isDailyTaskCompleted: dailyTasksList.isNotEmpty
+            ? (dailyTasksList.map((e) => e.isCompleted).toList()).cast()
+            : [],
       ),
     );
+    // print(dailyRecordsBox.values.last);
+    // Refresh the cached selectedDateRecord so getters reflect the latest box state
+    selectedDateRecord = dailyRecordsBox.get(
+      selectedDate.toString().split(" ")[0],
+    );
+
+    // Notify listeners so UI that depends on this provider (e.g. calendar/tracker)
+    // will rebuild and show updated percentages.
     notifyListeners();
   }
   // BoxCollection? myCollection;

@@ -4,6 +4,7 @@ import 'package:habitican/database/dailyRecord.dart';
 import 'package:habitican/utils/calendarr.dart';
 import 'package:habitican/utils/day_progress_circular_bar.dart';
 import 'package:habitican/utils/global_state_provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 // import 'package:percent_indicator/circular_percent_indicator.dart';
 // import 'package:table_calendar/table_calendar.dart';
@@ -84,16 +85,18 @@ class _TrackerScreenState extends State<TrackerScreen> {
                       ),
                     ],
                   ),
-                  DayProgressCircularBar(
-                    date: selectedDate.day.toString(),
-                    habitPercent: globalState.habitPercent,
-                    taskPercent:
-                        (globalState.taskPercent +
-                            globalState.dailyTaskPercent) /
-                        2,
-                    transparent: false,
-                    sizeMultiplier: 2,
-                    widthMulitplier: 2,
+                  ValueListenableBuilder(
+                    valueListenable: boxDailyRecords.listenable(),
+                    builder: (context, value, child) {
+                      return DayProgressCircularBar(
+                        date: selectedDate.day.toString(),
+                        habitPercent: globalState.habitPercent,
+                        taskPercent: globalState.totalTaskPercent,
+                        transparent: false,
+                        sizeMultiplier: 2,
+                        widthMulitplier: 2,
+                      );
+                    },
                   ),
                 ],
               ),

@@ -38,21 +38,27 @@ Future<void> dailyRecordsManager() async {
         habitName: habitsList.isNotEmpty
             ? (habitsList.map((e) => e.name).toList()).cast<String>()
             : [],
-        isHabitCompleted: List.filled(habitsList.length, false),
+        isHabitCompleted: habitsList.isNotEmpty
+            ? (habitsList.map((e) => e.isCompleted).toList()).cast()
+            : [],
         taskId: tasksList.isNotEmpty
             ? (tasksList.map((e) => e.id).toList()).cast<int>()
             : [],
         taskName: tasksList.isNotEmpty
             ? (tasksList.map((e) => e.name).toList()).cast<String>()
             : [],
-        isTaskCompleted: List.filled(tasksList.length, false),
+        isTaskCompleted: tasksList.isNotEmpty
+            ? (tasksList.map((e) => e.isCompleted).toList()).cast()
+            : [],
         dailyTaskId: dailyTasksList.isNotEmpty
             ? (dailyTasksList.map((e) => e.id).toList()).cast<int>()
             : [],
         dailyTaskName: dailyTasksList.isNotEmpty
             ? (dailyTasksList.map((e) => e.name).toList()).cast<String>()
             : [],
-        isDailyTaskCompleted: List.filled(dailyTasksList.length, false),
+        isDailyTaskCompleted: dailyTasksList.isNotEmpty
+            ? (dailyTasksList.map((e) => e.isCompleted).toList()).cast()
+            : [],
       ),
     );
   }

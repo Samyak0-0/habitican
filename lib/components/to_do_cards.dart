@@ -139,11 +139,11 @@ class _ToDoCardsState extends State<ToDoCards> {
             isCompleted: !widget.isCompleted,
           ),
         );
-        boxDailyRecords.deleteAt(boxDailyRecords.length - 1);
-        // Provider.of<GlobalStateProvider>(
-        //   context,
-        //   listen: false,
-        // ).updateRecord(DateTime.now());
+        // boxDailyRecords.deleteAt(boxDailyRecords.length - 1);
+        Provider.of<GlobalStateProvider>(
+          context,
+          listen: false,
+        ).updateRecord(DateTime.now());
       },
       trailing: optionsForTasks,
     );
