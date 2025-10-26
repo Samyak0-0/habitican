@@ -125,10 +125,39 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                   bool isCurrentMonth = date.month == currentMonth.month;
                   bool isSelected = _isSameDate(globalState.selectedDate, date);
 
-                  final appState = Provider.of<GlobalStateProvider>(context);
                   DailyRecord? dailyRecord = boxDailyRecords.get(
                     date.toString().split(" ")[0],
                   );
+
+                  // Compute per-day percentages from the DailyRecord for this
+                  // calendar cell instead of using the provider's currently
+                  // selected-date percentages. This prevents updating one
+                  // day's visuals from affecting other dates' displays.
+                  double habitPercentForDate = 0;
+                  double taskPercentForDate = 0;
+                  if (dailyRecord != null) {
+                    final int completedHabits = dailyRecord.isHabitCompleted
+                        .where((e) => e == true)
+                        .length;
+                    final int habitLen = dailyRecord.isHabitCompleted.length;
+                    habitPercentForDate = habitLen > 0
+                        ? completedHabits / habitLen
+                        : 0;
+
+                    final int completedTasks =
+                        dailyRecord.isTaskCompleted
+                            .where((e) => e == true)
+                            .length +
+                        dailyRecord.isDailyTaskCompleted
+                            .where((e) => e == true)
+                            .length;
+                    final int totalTasks =
+                        dailyRecord.isTaskCompleted.length +
+                        dailyRecord.isDailyTaskCompleted.length;
+                    taskPercentForDate = totalTasks > 0
+                        ? completedTasks / totalTasks
+                        : 0;
+                  }
 
                   return Padding(
                     padding: const EdgeInsets.all(4.0),
@@ -144,8 +173,8 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                         child: isCurrentMonth && dailyRecord != null
                             ? DayProgressCircularBar(
                                 date: date.day.toString(),
-                                habitPercent: appState.habitPercent,
-                                taskPercent: appState.totalTaskPercent,
+                                habitPercent: habitPercentForDate,
+                                taskPercent: taskPercentForDate,
                               )
                             : Text(
                                 date.day.toString(),

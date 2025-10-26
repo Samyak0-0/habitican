@@ -23,8 +23,9 @@ void main() async {
   boxTasks = await Hive.openBox<Tasks>('tasksBox');
   boxDailyTasks = await Hive.openBox<DailyTasks>('dailyTasksBox');
   boxDailyRecords = await Hive.openBox<DailyRecord>('dailyRecordBox');
-
-  dailyRecordsManager();
+  // Initialize daily records after Hive boxes are opened. The actual call
+  // is moved into AppLayout.initState so that a provider is available to be
+  // notified after records are added.
   runApp(const MyApp());
 }
 
@@ -119,5 +120,19 @@ class _AppLayoutState extends State<AppLayout> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Run dailyRecordsManager after the first frame so the provider is available
+    // and can be notified/refreshed with any new records that were added.
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await dailyRecordsManager();
+      final provider = Provider.of<GlobalStateProvider>(context, listen: false);
+      // Refresh the provider's cached record for the currently selected date
+      // and notify listeners so UI reflects newly-created daily records.
+      provider.updateRecord(provider.selectedDate);
+    });
   }
 }
