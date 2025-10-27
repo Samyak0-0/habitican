@@ -72,6 +72,26 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> optionsList = [
+      "All habits and tasks",
+      "Habits",
+      "Tasks",
+    ];
+    String? selectedOption = optionsList[0];
+    final List<String> habitList = boxHabits.values
+        .map((e) => e.name)
+        .toList()
+        .cast();
+    String? selectedHabit;
+    final List<String> taskList = boxTasks.values
+        .map((e) => e.name)
+        .toList()
+        .cast();
+    String? selectedTask;
+    final List<String> dailyTaskList = boxDailyTasks.values
+        .map((e) => e.name)
+        .toList()
+        .cast();
     final globalState = Provider.of<GlobalStateProvider>(context);
     return Column(
       children: [
@@ -82,6 +102,57 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
               icon: const Icon(Icons.arrow_back_ios),
               onPressed: () => _changeMonth(-1),
             ),
+            DropdownButtonFormField(
+              initialValue: selectedOption,
+              items: optionsList
+                  .map(
+                    (e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedOption = value;
+                });
+              },
+            ),
+            selectedOption == "Tasks" &&
+                    (dailyTaskList.length + taskList.length) > 0
+                ? DropdownButtonFormField(
+                    items: [...taskList, ...dailyTaskList]
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedTask = value;
+                      });
+                    },
+                  )
+                : SizedBox.shrink(),
+            selectedOption == "Habits" && habitList.isNotEmpty
+                ? DropdownButtonFormField(
+                    items: habitList
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedHabit = value;
+                      });
+                    },
+                  )
+                : SizedBox.shrink(),
             Text(
               '${_monthName(currentMonth.month)} ${currentMonth.year}',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),

@@ -93,8 +93,7 @@ class GlobalStateProvider extends ChangeNotifier {
             : [],
       ),
     );
-    print(dailyRecordsBox.values);
-    print(dailyRecordsBox.keys);
+
     // Refresh the cached selectedDateRecord so getters reflect the latest box state
     selectedDateRecord = dailyRecordsBox.get(
       selectedDate.toString().split(" ")[0],

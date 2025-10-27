@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/database/boxes.dart';
-import 'package:habitican/database/dailyRecord.dart';
 import 'package:habitican/utils/calendarr.dart';
 import 'package:habitican/utils/day_progress_circular_bar.dart';
 import 'package:habitican/utils/global_state_provider.dart';
