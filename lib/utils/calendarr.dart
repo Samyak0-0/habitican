@@ -70,31 +70,97 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
     });
   }
 
+  final List<String> optionsList = [
+    "All",
+    "Habits",
+    "Daily Tasks",
+  ];
+  String? selectedOption;
+  final List<String> habitList = boxHabits.values
+      .map((e) => e.name)
+      .toList()
+      .cast();
+  String? selectedHabit;
+  // final List<String> taskList = boxTasks.values
+  //     .map((e) => e.name)
+  //     .toList()
+  //     .cast();
+  String? selectedTask;
+  final List<String> dailyTaskList = boxDailyTasks.values
+      .map((e) => e.name)
+      .toList()
+      .cast();
   @override
   Widget build(BuildContext context) {
-    final List<String> optionsList = [
-      "All habits and tasks",
-      "Habits",
-      "Tasks",
-    ];
-    String? selectedOption = optionsList[0];
-    final List<String> habitList = boxHabits.values
-        .map((e) => e.name)
-        .toList()
-        .cast();
-    String? selectedHabit;
-    final List<String> taskList = boxTasks.values
-        .map((e) => e.name)
-        .toList()
-        .cast();
-    String? selectedTask;
-    final List<String> dailyTaskList = boxDailyTasks.values
-        .map((e) => e.name)
-        .toList()
-        .cast();
     final globalState = Provider.of<GlobalStateProvider>(context);
     return Column(
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              width: 130,
+              child: DropdownButtonFormField(
+                initialValue: optionsList[0],
+                items: optionsList
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedOption = value;
+                  });
+                },
+              ),
+            ),
+            selectedOption == "Daily Tasks" && dailyTaskList.isNotEmpty
+                ? SizedBox(
+                    width: 130,
+                    child: DropdownButtonFormField(
+                      initialValue: dailyTaskList[0],
+                      items: dailyTaskList
+                          .map(
+                            (e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedTask = value;
+                        });
+                      },
+                    ),
+                  )
+                : SizedBox.shrink(),
+            selectedOption == "Habits" && habitList.isNotEmpty
+                ? SizedBox(
+                    width: 130,
+                    child: DropdownButtonFormField(
+                      initialValue: habitList[0],
+                      items: habitList
+                          .map(
+                            (e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedHabit = value;
+                        });
+                      },
+                    ),
+                  )
+                : SizedBox.shrink(),
+          ],
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -102,57 +168,7 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
               icon: const Icon(Icons.arrow_back_ios),
               onPressed: () => _changeMonth(-1),
             ),
-            DropdownButtonFormField(
-              initialValue: selectedOption,
-              items: optionsList
-                  .map(
-                    (e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedOption = value;
-                });
-              },
-            ),
-            selectedOption == "Tasks" &&
-                    (dailyTaskList.length + taskList.length) > 0
-                ? DropdownButtonFormField(
-                    items: [...taskList, ...dailyTaskList]
-                        .map(
-                          (e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedTask = value;
-                      });
-                    },
-                  )
-                : SizedBox.shrink(),
-            selectedOption == "Habits" && habitList.isNotEmpty
-                ? DropdownButtonFormField(
-                    items: habitList
-                        .map(
-                          (e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedHabit = value;
-                      });
-                    },
-                  )
-                : SizedBox.shrink(),
+
             Text(
               '${_monthName(currentMonth.month)} ${currentMonth.year}',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
@@ -206,7 +222,8 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                   // day's visuals from affecting other dates' displays.
                   double habitPercentForDate = 0;
                   double taskPercentForDate = 0;
-                  if (dailyRecord != null) {
+                  // double habitOrTaskCompleted = 0;
+                  if (dailyRecord != null && selectedOption == "All") {
                     final int completedHabits = dailyRecord.isHabitCompleted
                         .where((e) => e == true)
                         .length;
@@ -228,6 +245,30 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                     taskPercentForDate = totalTasks > 0
                         ? completedTasks / totalTasks
                         : 0;
+                  }
+
+                  if (dailyRecord != null &&
+                      selectedOption == "Habits" &&
+                      selectedHabit != null) {
+                    final int indexOfHabit = dailyRecord.habitName.indexOf(
+                      selectedHabit!,
+                    );
+                    if (indexOfHabit != -1 &&
+                        dailyRecord.isHabitCompleted[indexOfHabit] == true) {
+                      habitPercentForDate = 1;
+                    }
+                  }
+
+                  if (dailyRecord != null &&
+                      selectedOption == "Daily Tasks" &&
+                      selectedTask != null) {
+                    final int indexOfTask = dailyRecord.dailyTaskName.indexOf(
+                      selectedTask!,
+                    );
+                    if (indexOfTask != -1 &&
+                        dailyRecord.isDailyTaskCompleted[indexOfTask] == true) {
+                      habitPercentForDate = 1;
+                    }
                   }
 
                   return Padding(
