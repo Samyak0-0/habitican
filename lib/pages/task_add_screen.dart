@@ -161,64 +161,37 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
             TextButton(
               onPressed: () {
                 setState(() {
-                  if (_selectedTaskType != null &&
-                      finalSelectedTime?.format(context) != null) {
+                  if (_inputField.text != "" && _selectedTaskType != null) {
                     if (_selectedTaskType == _TaskTypeList.oneTime) {
-                      if (_descriptionField.text == "") {
-                        boxTasks.put(
-                          newTaskId,
-                          Tasks(
-                            id: newTaskId,
-                            name: _inputField.text,
-                            taskDateandReminder: DateTime(
-                              selectedDate!.year,
-                              selectedDate!.month,
-                              selectedDate!.day,
-                              finalSelectedTime!.hour,
-                              finalSelectedTime!.minute,
-                            ).toString(),
-                          ),
-                        );
-                      } else {
-                        boxTasks.put(
-                          newTaskId,
-                          Tasks(
-                            id: newTaskId,
-                            name: _inputField.text,
-                            taskDateandReminder: DateTime(
-                              selectedDate!.year,
-                              selectedDate!.month,
-                              selectedDate!.day,
-                              finalSelectedTime!.hour,
-                              finalSelectedTime!.minute,
-                            ).toString(),
-                            description: _descriptionField.text,
-                          ),
-                        );
-                      }
-
+                      boxTasks.put(
+                        newTaskId,
+                        Tasks(
+                          id: newTaskId,
+                          name: _inputField.text,
+                          taskDateandReminder:
+                              finalSelectedTime?.format(context) != null
+                              ? DateTime(
+                                  selectedDate!.year,
+                                  selectedDate!.month,
+                                  selectedDate!.day,
+                                  finalSelectedTime!.hour,
+                                  finalSelectedTime!.minute,
+                                ).toString()
+                              : null,
+                          description: _descriptionField.text,
+                        ),
+                      );
                       newTaskId += 1;
                     } else {
-                      if (_descriptionField.text == "") {
-                        boxDailyTasks.put(
-                          newDailyTaskId,
-                          DailyTasks(
-                            id: newDailyTaskId,
-                            name: _inputField.text,
-                            reminder: finalSelectedTime!.format(context),
-                          ),
-                        );
-                      } else {
-                        boxDailyTasks.put(
-                          newDailyTaskId,
-                          DailyTasks(
-                            id: newDailyTaskId,
-                            name: _inputField.text,
-                            reminder: finalSelectedTime!.format(context),
-                            description: _descriptionField.text,
-                          ),
-                        );
-                      }
+                      boxDailyTasks.put(
+                        newDailyTaskId,
+                        DailyTasks(
+                          id: newDailyTaskId,
+                          name: _inputField.text,
+                          reminder: finalSelectedTime?.format(context),
+                          description: _descriptionField.text,
+                        ),
+                      );
                       newDailyTaskId += 1;
                     }
                   }

@@ -19,9 +19,17 @@ class _DashboardState extends State<Dashboard> {
 
   int habitToDoIndex = 0;
 
-  List<Widget> habitToDoLists = [
-    HabitList(),
-    ToDoList(),
+  // Generate the children using the current _selectedValue so they rebuild
+  // whenever _selectedValue changes (setState called by DatePicker).
+  List<Widget> get habitToDoLists => [
+    HabitList(
+      key: ValueKey('habits_$_selectedValue'),
+      selectedDate: DateTime.parse(_selectedValue),
+    ),
+    ToDoList(
+      key: ValueKey('tasks_$_selectedValue'),
+      selectedDate: DateTime.parse(_selectedValue),
+    ),
   ];
 
   @override
@@ -73,7 +81,7 @@ class _DashboardState extends State<Dashboard> {
             Needs logic to Start Counting from when user joined to App
             till the current day it is today.
             */
-            DateTime.now(),
+            DateTime(2025, 10, 20),
             initialSelectedDate: DateTime.now(),
             width: 60,
             daysCount: 100,

@@ -137,7 +137,7 @@ class _HabitAddScreenState extends State<HabitAddScreen> {
               onPressed: () {
                 setState(() {
                   if (_selectedInterval != null &&
-                      finalSelectedTime?.format(context) != null &&
+                      _inputField.text != "" &&
                       _selectedIcon != null) {
                     boxHabits.put(
                       newHabitId,
@@ -145,7 +145,7 @@ class _HabitAddScreenState extends State<HabitAddScreen> {
                         id: newHabitId,
                         name: _inputField.text,
                         interval: _selectedInterval!,
-                        reminder: finalSelectedTime!.format(context),
+                        reminder: finalSelectedTime?.format(context),
                         iconName: _selectedIcon!,
                         description: _descriptionField.text,
                       ),

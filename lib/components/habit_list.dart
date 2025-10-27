@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/components/habit_cards.dart';
+import 'package:habitican/components/habit_records.dart';
 import 'package:habitican/database/boxes.dart';
+import 'package:habitican/database/dailyRecord.dart';
 import 'package:habitican/database/habits.dart';
 // import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HabitList extends StatefulWidget {
-  const HabitList({super.key});
+  final DateTime selectedDate;
+  const HabitList({super.key, required this.selectedDate});
 
   @override
   State<HabitList> createState() => _HabitListState();
@@ -17,6 +20,37 @@ class _HabitListState extends State<HabitList> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    Duration timeDiff = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).difference(widget.selectedDate);
+    // print('affffff ${timeDiff.inDays} ${widget.selectedDate}');
+
+    // if(timeDiff.inDays >= 1) {
+
+    // }
+    if (timeDiff.inDays >= 1) {
+      DailyRecord? selectedDaysRecord = boxDailyRecords.get(
+        widget.selectedDate.toString().split(" ")[0],
+      );
+
+      if (selectedDaysRecord == null) {
+        return Text("No records found! :(");
+      }
+      // boxDailyRecords.values.map((e))
+      return ListView.builder(
+        itemCount: selectedDaysRecord.habitName.length,
+        itemBuilder: (context, index) {
+          return HabitRecords(
+            index: index + 1,
+            name: selectedDaysRecord.habitName[index],
+            isCompleted: selectedDaysRecord.isHabitCompleted[index],
+          );
+        },
+      );
+    }
     // for (var habit in habitsList.values) {
     //   print('Habit: ${habit.name}, Streak: ${habit.interval}');
     // }

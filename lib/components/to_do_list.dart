@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/components/to_do_cards.dart';
+import 'package:habitican/components/to_do_records.dart';
 import 'package:habitican/database/boxes.dart';
+import 'package:habitican/database/dailyRecord.dart';
 import 'package:habitican/database/tasks.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ToDoList extends StatefulWidget {
-  const ToDoList({super.key});
+  final DateTime selectedDate;
+  const ToDoList({super.key, required this.selectedDate});
   @override
   State<ToDoList> createState() => _ToDoListState();
 }
@@ -21,6 +24,34 @@ class _ToDoListState extends State<ToDoList> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    Duration timeDiff = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).difference(widget.selectedDate);
+
+    if (timeDiff.inDays >= 1) {
+      DailyRecord? selectedDaysRecord = boxDailyRecords.get(
+        widget.selectedDate.toString().split(" ")[0],
+      );
+
+      if (selectedDaysRecord == null) {
+        return Text("No records found! :(");
+      }
+      // boxDailyRecords.values.map((e))
+      return ListView.builder(
+        itemCount: selectedDaysRecord.taskName.length,
+        itemBuilder: (context, index) {
+          return ToDoRecords(
+            index: index + 1,
+            name: selectedDaysRecord.taskName[index],
+            isCompleted: selectedDaysRecord.isTaskCompleted[index],
+          );
+        },
+      );
+    }
+
     return ValueListenableBuilder(
       valueListenable: boxTasks.listenable(),
       builder: (context, value, child) {
