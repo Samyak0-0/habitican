@@ -8,8 +8,8 @@ class Habits {
     required this.id,
     required this.name,
     required this.interval,
-    required this.reminder,
     required this.iconName,
+    this.reminder,
     this.isCompleted = false,
     this.description,
   });
@@ -27,7 +27,7 @@ class Habits {
   String interval;
 
   @HiveField(4)
-  String reminder;
+  String? reminder;
 
   @HiveField(5)
   String iconName;

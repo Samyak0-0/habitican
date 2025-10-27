@@ -19,7 +19,7 @@ class TasksAdapter extends TypeAdapter<Tasks> {
     return Tasks(
       id: fields[0] as int,
       name: fields[1] as String,
-      taskDateandReminder: fields[3] as String,
+      taskDateandReminder: fields[3] as String?,
       isCompleted: fields[4] as bool,
       description: fields[2] as String?,
     );

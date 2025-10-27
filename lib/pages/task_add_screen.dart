@@ -164,33 +164,61 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                   if (_selectedTaskType != null &&
                       finalSelectedTime?.format(context) != null) {
                     if (_selectedTaskType == _TaskTypeList.oneTime) {
-                      boxTasks.put(
-                        newTaskId,
-                        Tasks(
-                          id: newTaskId,
-                          name: _inputField.text,
-                          taskDateandReminder: DateTime(
-                            selectedDate!.year,
-                            selectedDate!.month,
-                            selectedDate!.day,
-                            finalSelectedTime!.hour,
-                            finalSelectedTime!.minute,
-                          ).toString(),
-                          // reminder: finalSelectedTime!.format(context),
-                          description: _descriptionField.text,
-                        ),
-                      );
+                      if (_descriptionField.text == "") {
+                        boxTasks.put(
+                          newTaskId,
+                          Tasks(
+                            id: newTaskId,
+                            name: _inputField.text,
+                            taskDateandReminder: DateTime(
+                              selectedDate!.year,
+                              selectedDate!.month,
+                              selectedDate!.day,
+                              finalSelectedTime!.hour,
+                              finalSelectedTime!.minute,
+                            ).toString(),
+                          ),
+                        );
+                      } else {
+                        boxTasks.put(
+                          newTaskId,
+                          Tasks(
+                            id: newTaskId,
+                            name: _inputField.text,
+                            taskDateandReminder: DateTime(
+                              selectedDate!.year,
+                              selectedDate!.month,
+                              selectedDate!.day,
+                              finalSelectedTime!.hour,
+                              finalSelectedTime!.minute,
+                            ).toString(),
+                            description: _descriptionField.text,
+                          ),
+                        );
+                      }
+
                       newTaskId += 1;
                     } else {
-                      boxDailyTasks.put(
-                        newDailyTaskId,
-                        DailyTasks(
-                          id: newDailyTaskId,
-                          name: _inputField.text,
-                          reminder: finalSelectedTime!.format(context),
-                          description: _descriptionField.text,
-                        ),
-                      );
+                      if (_descriptionField.text == "") {
+                        boxDailyTasks.put(
+                          newDailyTaskId,
+                          DailyTasks(
+                            id: newDailyTaskId,
+                            name: _inputField.text,
+                            reminder: finalSelectedTime!.format(context),
+                          ),
+                        );
+                      } else {
+                        boxDailyTasks.put(
+                          newDailyTaskId,
+                          DailyTasks(
+                            id: newDailyTaskId,
+                            name: _inputField.text,
+                            reminder: finalSelectedTime!.format(context),
+                            description: _descriptionField.text,
+                          ),
+                        );
+                      }
                       newDailyTaskId += 1;
                     }
                   }

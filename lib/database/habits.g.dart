@@ -20,8 +20,8 @@ class HabitsAdapter extends TypeAdapter<Habits> {
       id: fields[0] as int,
       name: fields[1] as String,
       interval: fields[3] as String,
-      reminder: fields[4] as String,
       iconName: fields[5] as String,
+      reminder: fields[4] as String?,
       isCompleted: fields[6] as bool,
       description: fields[2] as String?,
     );

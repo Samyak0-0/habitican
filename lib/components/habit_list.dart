@@ -32,7 +32,7 @@ class _HabitListState extends State<HabitList> {
             return Habitcards(
               name: habit.name,
               interval: habit.interval,
-              reminder: habit.reminder,
+              reminder: habit.reminder!,
               habitIconName: habit.iconName,
               description: habit.description,
             );

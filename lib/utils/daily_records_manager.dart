@@ -1,7 +1,8 @@
-// import 'dart:ffi';
-
 import 'package:habitican/database/boxes.dart';
 import 'package:habitican/database/dailyRecord.dart';
+import 'package:habitican/database/dailyTasks.dart';
+import 'package:habitican/database/habits.dart';
+import 'package:habitican/database/tasks.dart';
 // import 'package:hive_flutter/adapters.dart';
 
 Future<void> dailyRecordsManager() async {
@@ -38,27 +39,21 @@ Future<void> dailyRecordsManager() async {
         habitName: habitsList.isNotEmpty
             ? (habitsList.map((e) => e.name).toList()).cast<String>()
             : [],
-        isHabitCompleted: habitsList.isNotEmpty
-            ? (habitsList.map((e) => e.isCompleted).toList()).cast()
-            : [],
+        isHabitCompleted: List.filled(habitsList.length, false),
         taskId: tasksList.isNotEmpty
             ? (tasksList.map((e) => e.id).toList()).cast<int>()
             : [],
         taskName: tasksList.isNotEmpty
             ? (tasksList.map((e) => e.name).toList()).cast<String>()
             : [],
-        isTaskCompleted: tasksList.isNotEmpty
-            ? (tasksList.map((e) => e.isCompleted).toList()).cast()
-            : [],
+        isTaskCompleted: List.filled(tasksList.length, false),
         dailyTaskId: dailyTasksList.isNotEmpty
             ? (dailyTasksList.map((e) => e.id).toList()).cast<int>()
             : [],
         dailyTaskName: dailyTasksList.isNotEmpty
             ? (dailyTasksList.map((e) => e.name).toList()).cast<String>()
             : [],
-        isDailyTaskCompleted: dailyTasksList.isNotEmpty
-            ? (dailyTasksList.map((e) => e.isCompleted).toList()).cast()
-            : [],
+        isDailyTaskCompleted: List.filled(dailyTasksList.length, false),
       ),
     );
   }
@@ -68,7 +63,50 @@ Future<void> dailyRecordsManager() async {
     return;
   }
 
-  if (dailyRecordsBox.keys.isEmpty) addRecord(todayDateTime);
+  habitsList.map((e) {
+    boxHabits.put(
+      e.id,
+      Habits(
+        id: e.id,
+        name: e.name,
+        interval: e.interval,
+        reminder: e.reminder,
+        iconName: e.iconNAme,
+        isCompleted: false,
+      ),
+    );
+  });
+  tasksList.map((e) {
+    if (e?.taskDateandReminder == null) {
+      boxTasks.put(
+        e.id,
+        Tasks(
+          id: e.id,
+          name: e.name,
+          taskDateandReminder: e.taskDateandReminder,
+          isCompleted: false,
+        ),
+      );
+    } else {
+      boxTasks.delete(e.id);
+    }
+  });
+  dailyTasksList.map((e) {
+    boxDailyTasks.put(
+      e.id,
+      DailyTasks(
+        id: e.id,
+        name: e.name,
+        reminder: e.reminder,
+        isCompleted: false,
+      ),
+    );
+  });
+
+  if (dailyRecordsBox.keys.isEmpty) {
+    addRecord(todayDateTime);
+    return;
+  }
 
   Duration difference = parsedDate.difference(
     DateTime.parse(dailyRecordsBox.keys.last),

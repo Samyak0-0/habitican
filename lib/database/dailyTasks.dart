@@ -7,7 +7,7 @@ class DailyTasks {
   DailyTasks({
     required this.id,
     required this.name,
-    required this.reminder,
+    this.reminder,
     this.isCompleted = false,
     this.description,
   });
@@ -22,7 +22,7 @@ class DailyTasks {
   String? description;
 
   @HiveField(3)
-  String reminder;
+  String? reminder;
 
   @HiveField(4)
   bool isCompleted;

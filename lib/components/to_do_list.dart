@@ -38,6 +38,7 @@ class _ToDoListState extends State<ToDoList> {
                 index,
               ) {
                 Tasks task = tasks[index];
+                print(task.description);
                 // print(boxTasks.keys);
                 // print(task.toString());
 
@@ -45,8 +46,9 @@ class _ToDoListState extends State<ToDoList> {
                 return ToDoCards(
                   id: task.id,
                   name: task.name,
-                  taskDateandReminder: task.taskDateandReminder,
+                  taskDateandReminder: task.taskDateandReminder!,
                   isCompleted: task.isCompleted,
+                  description: task.description,
                   // reOrderFunction: _reorderTasks,
                 );
               },

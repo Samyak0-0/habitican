@@ -19,7 +19,7 @@ class DailyTasksAdapter extends TypeAdapter<DailyTasks> {
     return DailyTasks(
       id: fields[0] as int,
       name: fields[1] as String,
-      reminder: fields[3] as String,
+      reminder: fields[3] as String?,
       isCompleted: fields[4] as bool,
       description: fields[2] as String?,
     );

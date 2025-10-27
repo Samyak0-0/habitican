@@ -26,84 +26,59 @@ class ToDoCards extends StatefulWidget {
 }
 
 class _ToDoCardsState extends State<ToDoCards> {
-  // late bool isCompleted;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   isCompleted = widget.isCompleted;
-  // }
-
-  // Future<void> toggleCompletion() async {
-  //   // Prevent rebuild race condition
-  //   final task = boxTasks.get(widget.id);
-  //   if (task != null) {
-  //     task.isCompleted = !widget.isCompleted;
-  //     await task.save(); // triggers ValueListenableBuilder rebuild
-  //   }
-  // }
-
-  //   // Update local state AFTER saving (to avoid rebuild loops)
-  //   // if (mounted) {
-  //   //   setState(() {
-  //   //     isCompleted = !isCompleted;
-  //   //   });
-  //   // }
-  // }
+  late Widget optionsForTasks = PopupMenuButton(
+    onSelected: (value) async {
+      if (value == "edit") {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return EditScreen();
+            },
+          ),
+        );
+      }
+      if (value == "delete") {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Delete Task'),
+              content: Text('Are you sure you want to delete this task?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancel"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    boxTasks.delete(widget.id);
+                    // boxTasks.clear();
+                    Navigator.pop(context);
+                  },
+                  child: Text("Ok"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    },
+    itemBuilder: (context) => [
+      PopupMenuItem(
+        value: 'edit',
+        child: Text("Edit"),
+      ),
+      PopupMenuItem(
+        value: 'delete',
+        child: Text("Delete"),
+      ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
-    Widget optionsForTasks = PopupMenuButton(
-      onSelected: (value) async {
-        if (value == "edit") {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return EditScreen();
-              },
-            ),
-          );
-        }
-        if (value == "delete") {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Delete Task'),
-                content: Text('Are you sure you want to delete this task?'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("Cancel"),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      boxTasks.delete(widget.id);
-                      // boxTasks.clear();
-                      Navigator.pop(context);
-                    },
-                    child: Text("Ok"),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      },
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          value: 'edit',
-          child: Text("Edit"),
-        ),
-        PopupMenuItem(
-          value: 'delete',
-          child: Text("Delete"),
-        ),
-      ],
-    );
-
     // if (description != null) {
     //   return ListTile(
     //     title: Row(
@@ -113,6 +88,43 @@ class _ToDoCardsState extends State<ToDoCards> {
     //     trailing: Icon(Icons.more_vert),
     //   );
     // } else {
+    if (widget.description != null) {
+      return ListTile(
+        title: Row(
+          children: [
+            Text(
+              widget.name,
+              style: widget.isCompleted
+                  ? TextStyle(
+                      // color: Colors.green,
+                      decoration: TextDecoration.lineThrough,
+                    )
+                  : TextStyle(),
+            ),
+            Text(widget.taskDateandReminder),
+          ],
+        ),
+        subtitle: Text(widget.description!),
+        // leading: Icon,
+        onTap: () {
+          boxTasks.put(
+            widget.id,
+            Tasks(
+              id: widget.id,
+              name: widget.name,
+              taskDateandReminder: widget.taskDateandReminder,
+              isCompleted: !widget.isCompleted,
+            ),
+          );
+          // boxDailyRecords.deleteAt(boxDailyRecords.length - 1);
+          Provider.of<GlobalStateProvider>(
+            context,
+            listen: false,
+          ).updateRecord(DateTime.now());
+        },
+        trailing: optionsForTasks,
+      );
+    }
 
     return ListTile(
       title: Row(
@@ -129,6 +141,7 @@ class _ToDoCardsState extends State<ToDoCards> {
           Text(widget.taskDateandReminder),
         ],
       ),
+
       onTap: () {
         boxTasks.put(
           widget.id,
