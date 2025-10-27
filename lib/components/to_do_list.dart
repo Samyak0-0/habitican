@@ -69,7 +69,7 @@ class _ToDoListState extends State<ToDoList> {
                 index,
               ) {
                 Tasks task = tasks[index];
-                print(task.description);
+                // print(task.description);
                 // print(boxTasks.keys);
                 // print(task.toString());
 

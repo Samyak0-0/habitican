@@ -70,6 +70,7 @@ class _HabitListState extends State<HabitList> {
           itemBuilder: (context, index) {
             // Habits habit = boxHabits.getAt(index);
             Habits habit = habits[index];
+            print('${habit.id} -- ${habit.name}');
             return Habitcards(
               id: habit.id,
               name: habit.name,

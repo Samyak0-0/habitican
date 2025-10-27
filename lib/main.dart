@@ -23,6 +23,7 @@ void main() async {
   boxTasks = await Hive.openBox<Tasks>('tasksBox');
   boxDailyTasks = await Hive.openBox<DailyTasks>('dailyTasksBox');
   boxDailyRecords = await Hive.openBox<DailyRecord>('dailyRecordBox');
+
   // Initialize daily records after Hive boxes are opened. The actual call
   // is moved into AppLayout.initState so that a provider is available to be
   // notified after records are added.

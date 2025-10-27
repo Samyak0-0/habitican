@@ -52,13 +52,13 @@ class DailyRecord {
     habitName.forEach((e) {
       printString += "\t$e\t";
     });
-    taskName.forEach((e) {
+    // taskName.forEach((e) {
+    //   printString += "\t$e\t";
+    // });
+    habitId.forEach((e) {
       printString += "\t$e\t";
     });
-    dailyTaskName.forEach((e) {
-      printString += "\t$e\t";
-    });
-    isTaskCompleted.forEach((e) {
+    isHabitCompleted.forEach((e) {
       printString += "\t$e\t";
     });
     return '$date -- $printString --';
