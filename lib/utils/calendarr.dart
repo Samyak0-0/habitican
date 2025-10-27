@@ -25,6 +25,10 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
     super.initState();
     currentMonth = DateTime.now();
     datesGrid = _generateDatesGrid(currentMonth);
+    // initialize selected filters so the UI and logic are in sync
+    selectedOption = optionsList[0];
+    selectedHabit = habitList.isNotEmpty ? habitList[0] : null;
+    selectedTask = dailyTaskList.isNotEmpty ? dailyTaskList[0] : null;
   }
 
   List<DateTime> _generateDatesGrid(DateTime month) {
@@ -101,7 +105,7 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
             SizedBox(
               width: 130,
               child: DropdownButtonFormField(
-                initialValue: optionsList[0],
+                initialValue: selectedOption,
                 items: optionsList
                     .map(
                       (e) => DropdownMenuItem(
@@ -113,6 +117,17 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                 onChanged: (value) {
                   setState(() {
                     selectedOption = value;
+                    // ensure dependent selections default when switching modes
+                    if (selectedOption == "Habits" &&
+                        selectedHabit == null &&
+                        habitList.isNotEmpty) {
+                      selectedHabit = habitList[0];
+                    }
+                    if (selectedOption == "Daily Tasks" &&
+                        selectedTask == null &&
+                        dailyTaskList.isNotEmpty) {
+                      selectedTask = dailyTaskList[0];
+                    }
                   });
                 },
               ),
@@ -267,7 +282,8 @@ class _MonthlyScreenState extends State<MonthlyScreen> {
                     );
                     if (indexOfTask != -1 &&
                         dailyRecord.isDailyTaskCompleted[indexOfTask] == true) {
-                      habitPercentForDate = 1;
+                      // mark the task completion in the task ring (inner ring)
+                      taskPercentForDate = 1;
                     }
                   }
 

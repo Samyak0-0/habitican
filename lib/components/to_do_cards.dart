@@ -117,6 +117,8 @@ class _ToDoCardsState extends State<ToDoCards> {
             ),
           );
           // boxDailyRecords.deleteAt(boxDailyRecords.length - 1);
+          // Update the daily record for the currently selected date so UI
+          // components (like the calendar) refresh the correct day's progress.
           Provider.of<GlobalStateProvider>(
             context,
             listen: false,

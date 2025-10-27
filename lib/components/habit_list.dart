@@ -59,16 +59,25 @@ class _HabitListState extends State<HabitList> {
     return ValueListenableBuilder(
       valueListenable: boxHabits.listenable(),
       builder: (context, value, child) {
+        List<Habits> habits = boxHabits.values.toList().cast<Habits>();
+        habits.sort((a, b) {
+          if (a.isCompleted == b.isCompleted) return 0;
+          return a.isCompleted ? 1 : -1;
+        });
+
         return ListView.builder(
           itemCount: habitsList.length,
           itemBuilder: (context, index) {
-            Habits habit = boxHabits.getAt(index);
+            // Habits habit = boxHabits.getAt(index);
+            Habits habit = habits[index];
             return Habitcards(
+              id: habit.id,
               name: habit.name,
               interval: habit.interval,
-              reminder: habit.reminder!,
+              reminder: habit.reminder,
               habitIconName: habit.iconName,
               description: habit.description,
+              isCompleted: habit.isCompleted,
             );
           },
         );

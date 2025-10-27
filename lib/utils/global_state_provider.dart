@@ -60,36 +60,41 @@ class GlobalStateProvider extends ChangeNotifier {
   DateTime get parsedDate => DateTime.parse(todayDate);
 
   void updateRecord(DateTime entryDate) {
+    // Read the latest box values at update time to avoid stale snapshots
+    final currentHabits = boxHabits.values;
+    final currentTasks = boxTasks.values;
+    final currentDailyTasks = boxDailyTasks.values;
+
     dailyRecordsBox.put(
       entryDate.toString().split(" ")[0],
       DailyRecord(
         date: entryDate.toString().split(" ")[0],
-        habitId: habitsList.isNotEmpty
-            ? (habitsList.map((e) => e.id).toList()).cast<int>()
+        habitId: currentHabits.isNotEmpty
+            ? (currentHabits.map((e) => e.id).toList()).cast<int>()
             : [],
-        habitName: habitsList.isNotEmpty
-            ? (habitsList.map((e) => e.name).toList()).cast<String>()
+        habitName: currentHabits.isNotEmpty
+            ? (currentHabits.map((e) => e.name).toList()).cast<String>()
             : [],
-        isHabitCompleted: habitsList.isNotEmpty
-            ? (habitsList.map((e) => e.isCompleted).toList()).cast()
+        isHabitCompleted: currentHabits.isNotEmpty
+            ? (currentHabits.map((e) => e.isCompleted).toList()).cast()
             : [],
-        taskId: tasksList.isNotEmpty
-            ? (tasksList.map((e) => e.id).toList()).cast<int>()
+        taskId: currentTasks.isNotEmpty
+            ? (currentTasks.map((e) => e.id).toList()).cast<int>()
             : [],
-        taskName: tasksList.isNotEmpty
-            ? (tasksList.map((e) => e.name).toList()).cast<String>()
+        taskName: currentTasks.isNotEmpty
+            ? (currentTasks.map((e) => e.name).toList()).cast<String>()
             : [],
-        isTaskCompleted: tasksList.isNotEmpty
-            ? (tasksList.map((e) => e.isCompleted).toList()).cast()
+        isTaskCompleted: currentTasks.isNotEmpty
+            ? (currentTasks.map((e) => e.isCompleted).toList()).cast()
             : [],
-        dailyTaskId: dailyTasksList.isNotEmpty
-            ? (dailyTasksList.map((e) => e.id).toList()).cast<int>()
+        dailyTaskId: currentDailyTasks.isNotEmpty
+            ? (currentDailyTasks.map((e) => e.id).toList()).cast<int>()
             : [],
-        dailyTaskName: dailyTasksList.isNotEmpty
-            ? (dailyTasksList.map((e) => e.name).toList()).cast<String>()
+        dailyTaskName: currentDailyTasks.isNotEmpty
+            ? (currentDailyTasks.map((e) => e.name).toList()).cast<String>()
             : [],
-        isDailyTaskCompleted: dailyTasksList.isNotEmpty
-            ? (dailyTasksList.map((e) => e.isCompleted).toList()).cast()
+        isDailyTaskCompleted: currentDailyTasks.isNotEmpty
+            ? (currentDailyTasks.map((e) => e.isCompleted).toList()).cast()
             : [],
       ),
     );
