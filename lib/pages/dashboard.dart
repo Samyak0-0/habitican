@@ -17,6 +17,9 @@ class _DashboardState extends State<Dashboard> {
   final todayDate = DateFormat("dd MMM, yyyy").format(DateTime.now());
   String _selectedValue = DateTime.now().toString();
 
+  // Controller to programmatically scroll/animate the DatePicker
+  final DatePickerController _datePickerController = DatePickerController();
+
   int habitToDoIndex = 0;
 
   // Generate the children using the current _selectedValue so they rebuild
@@ -31,6 +34,25 @@ class _DashboardState extends State<Dashboard> {
       selectedDate: DateTime.parse(_selectedValue),
     ),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    // After first frame, animate the DatePicker to its initial selection.
+    // We use a post-frame callback so the DatePicker has attached the
+    // controller in its own initState.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        _datePickerController.animateToSelection(
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOut,
+        );
+      } catch (e) {
+        // If something goes wrong, ignore to avoid crashing the app on launch.
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +104,10 @@ class _DashboardState extends State<Dashboard> {
             till the current day it is today.
             */
             DateTime(2025, 10, 20),
-            initialSelectedDate: DateTime.now(),
+            // Use the same selected value for initial selection so the
+            // controller can animate to the correct date on launch.
+            initialSelectedDate: DateTime.parse(_selectedValue),
+            controller: _datePickerController,
             width: 60,
             daysCount: 100,
             // monthTextStyle: TextStyle(color: Colors.white),

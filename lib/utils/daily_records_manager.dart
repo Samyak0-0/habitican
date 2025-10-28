@@ -58,13 +58,15 @@ Future<void> dailyRecordsManager() async {
     );
   }
 
+  // await dailyRecordsBox.deleteAt(dailyRecordsBox.length - 1);
+  // print(boxHabits.keys);
   if (checkExisting != null) {
     print(checkExisting);
     return;
   }
 
-  habitsList.map((e) {
-    boxHabits.put(
+  habitsList.map((e) async {
+    await boxHabits.put(
       e.id,
       Habits(
         id: e.id,
@@ -76,9 +78,9 @@ Future<void> dailyRecordsManager() async {
       ),
     );
   });
-  tasksList.map((e) {
+  tasksList.map((e) async {
     if (e?.taskDateandReminder == null) {
-      boxTasks.put(
+      await boxTasks.put(
         e.id,
         Tasks(
           id: e.id,
@@ -88,11 +90,11 @@ Future<void> dailyRecordsManager() async {
         ),
       );
     } else {
-      boxTasks.delete(e.id);
+      await boxTasks.delete(e.id);
     }
   });
-  dailyTasksList.map((e) {
-    boxDailyTasks.put(
+  dailyTasksList.map((e) async {
+    await boxDailyTasks.put(
       e.id,
       DailyTasks(
         id: e.id,
