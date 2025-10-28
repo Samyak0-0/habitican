@@ -139,6 +139,7 @@ class _HabitAddScreenState extends State<HabitAddScreen> {
                   if (_selectedInterval != null &&
                       _inputField.text != "" &&
                       _selectedIcon != null) {
+                    if (_selectedInterval == "Weekly") {}
                     boxHabits.put(
                       newHabitId,
                       Habits(

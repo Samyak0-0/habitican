@@ -37,6 +37,30 @@ class _ToDoCardsState extends State<ToDoCards> {
           ),
         );
       }
+      if (value == "Make Task of the Day") {
+        Tasks firstTask = boxTasks.values.first;
+        boxTasks.put(
+          0,
+          Tasks(
+            id: 0,
+            name: widget.name,
+            taskDateandReminder: widget.taskDateandReminder,
+            isCompleted: widget.isCompleted,
+            description: widget.description,
+          ),
+        );
+        // boxTasks.add(firstTask);
+        boxTasks.put(
+          widget.id,
+          Tasks(
+            id: widget.id,
+            name: firstTask.name,
+            taskDateandReminder: firstTask.taskDateandReminder,
+            isCompleted: firstTask.isCompleted,
+            description: firstTask.description,
+          ),
+        );
+      }
       if (value == "delete") {
         showDialog(
           context: context,
@@ -66,6 +90,10 @@ class _ToDoCardsState extends State<ToDoCards> {
       }
     },
     itemBuilder: (context) => [
+      PopupMenuItem(
+        value: 'Make Task of the Day',
+        child: Text("Make Task of the Day ⭐"),
+      ),
       PopupMenuItem(
         value: 'edit',
         child: Text("Edit"),

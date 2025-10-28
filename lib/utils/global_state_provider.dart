@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/database/boxes.dart';
 import 'package:habitican/database/dailyRecord.dart';
+import 'package:habitican/database/tasks.dart';
 // import 'package:habitican/database/tasks.dart';
 // import 'package:hive/hive.dart';
 
@@ -108,6 +109,24 @@ class GlobalStateProvider extends ChangeNotifier {
     // will rebuild and show updated percentages.
     notifyListeners();
   }
+
+  //
+  // List<Tasks> tasks = boxTasks.values.toList().cast<Tasks>();
+  // void makeMostImpTask(Tasks task) {
+  //   tasks.remove(task);
+  //   tasks = [task, ...tasks];
+  //   notifyListeners();
+  // }
+
+  //
+  List<int> selectedDays = [];
+  void toggleDays(int index) {
+    selectedDays.contains(index)
+        ? selectedDays.remove(index)
+        : selectedDays.add(index);
+    notifyListeners();
+  }
+
   // BoxCollection? myCollection;
 
   // List<Tasks> completedTasks = [];
