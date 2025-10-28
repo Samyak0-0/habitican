@@ -80,6 +80,7 @@ class _ToDoListState extends State<ToDoList> {
                   taskDateandReminder: task.taskDateandReminder!,
                   isCompleted: task.isCompleted,
                   description: task.description,
+                  index: index,
                   // reOrderFunction: _reorderTasks,
                 );
               },

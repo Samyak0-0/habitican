@@ -7,6 +7,7 @@ import 'package:habitican/utils/global_state_provider.dart';
 import 'package:provider/provider.dart';
 
 class ToDoCards extends StatefulWidget {
+  final int index;
   final int id;
   final String name;
   final String? description;
@@ -19,6 +20,7 @@ class ToDoCards extends StatefulWidget {
     required this.taskDateandReminder,
     required this.id,
     required this.isCompleted,
+    required this.index,
   });
 
   @override
@@ -157,6 +159,7 @@ class _ToDoCardsState extends State<ToDoCards> {
     }
 
     return ListTile(
+      tileColor: widget.index == 0 ? Colors.amberAccent : Colors.white,
       title: Row(
         children: [
           Text(

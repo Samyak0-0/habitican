@@ -10,6 +10,7 @@ import 'package:habitican/pages/dashboard.dart';
 import 'package:habitican/pages/tracker_screen.dart';
 import 'package:habitican/utils/daily_records_manager.dart';
 import 'package:habitican/utils/global_state_provider.dart';
+import 'package:habitican/utils/notifications_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -23,6 +24,11 @@ void main() async {
   boxTasks = await Hive.openBox<Tasks>('tasksBox');
   boxDailyTasks = await Hive.openBox<DailyTasks>('dailyTasksBox');
   boxDailyRecords = await Hive.openBox<DailyRecord>('dailyRecordBox');
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //init Notifications
+  NotificationsUtils().initNotification();
 
   // Initialize daily records after Hive boxes are opened. The actual call
   // is moved into AppLayout.initState so that a provider is available to be
@@ -67,9 +73,22 @@ class _AppLayoutState extends State<AppLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: IndexedStack(
-          index: currentPage,
-          children: pages,
+        child: Row(
+          children: [
+            IndexedStack(
+              index: currentPage,
+              children: pages,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                NotificationsUtils().showNotifications(
+                  title: "WWWWWWWWWWWWWW",
+                  body: "Chatttttttttt!!!!",
+                );
+              },
+              child: Text("load notifications"),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
