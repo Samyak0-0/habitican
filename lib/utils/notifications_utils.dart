@@ -51,6 +51,11 @@ class NotificationsUtils {
     String? title,
     String? body,
   }) async {
-    notificationsPlugin.show(id, title, body, const NotificationDetails());
+    return notificationsPlugin.show(
+      id,
+      title,
+      body,
+      notificationDetails(),
+    );
   }
 }

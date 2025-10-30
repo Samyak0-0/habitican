@@ -11,6 +11,7 @@ import 'package:habitican/pages/tracker_screen.dart';
 import 'package:habitican/utils/daily_records_manager.dart';
 import 'package:habitican/utils/global_state_provider.dart';
 import 'package:habitican/utils/notifications_utils.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -73,22 +74,18 @@ class _AppLayoutState extends State<AppLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Row(
-          children: [
-            IndexedStack(
-              index: currentPage,
-              children: pages,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                NotificationsUtils().showNotifications(
-                  title: "WWWWWWWWWWWWWW",
-                  body: "Chatttttttttt!!!!",
-                );
-              },
-              child: Text("load notifications"),
-            ),
-          ],
+        child: ElevatedButton(
+          onPressed: () {
+            NotificationsUtils().showNotifications(
+              title: "WWWWWWWWWWWWWW",
+              body: "Chatttttttttt!!!!",
+            );
+          },
+          child: Text("load notifications"),
+          // IndexedStack(
+          //   index: currentPage,
+          //   children: pages,
+          // ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
