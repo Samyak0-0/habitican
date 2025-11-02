@@ -74,18 +74,34 @@ class _AppLayoutState extends State<AppLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ElevatedButton(
-          onPressed: () {
-            NotificationsUtils().showNotifications(
-              title: "WWWWWWWWWWWWWW",
-              body: "Chatttttttttt!!!!",
-            );
-          },
-          child: Text("load notifications"),
-          // IndexedStack(
-          //   index: currentPage,
-          //   children: pages,
-          // ),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                NotificationsUtils().showNotifications(
+                  title: "WWWWWWWWWWWWWW",
+                  body: "Chatttttttttt!!!!",
+                );
+              },
+              child: Text("load notifications"),
+
+              // IndexedStack(
+              //   index: currentPage,
+              //   children: pages,
+              // ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                NotificationsUtils().scheduleNotifications(
+                  title: "YOOOOOO",
+                  body: "Chatttttttttt!!!!",
+                  hour: 21,
+                  minute: 17,
+                );
+              },
+              child: Text("Schedule notifications"),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

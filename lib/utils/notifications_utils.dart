@@ -1,4 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+// TODO: import flutter_timezone
 
 class NotificationsUtils {
   final notificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -10,6 +13,10 @@ class NotificationsUtils {
   //initialization
   Future<void> initNotification() async {
     if (_isInitialized) return;
+
+    tz.initializeTimeZones();
+    // final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
+    // tz.setLocalLocation(tz.getLocation(currentTimeZone));
 
     // Android Initialization Settings
     const initSettingsAndroid = AndroidInitializationSettings(
@@ -57,5 +64,41 @@ class NotificationsUtils {
       body,
       notificationDetails(),
     );
+  }
+
+  //scheduling notification
+  Future<void> scheduleNotifications({
+    int id = 1,
+    required String title,
+    required String body,
+    required int hour,
+    required int minute,
+  }) async {
+    final now = tz.TZDateTime.now(tz.local);
+
+    var scheduledDate = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minute,
+    );
+
+    await notificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      scheduledDate,
+      notificationDetails(),
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
+
+    print("Notifications Scheduled");
+  }
+
+  Future<void> cancelAllNotifications() async {
+    await notificationsPlugin.cancelAll();
   }
 }
