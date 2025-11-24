@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
+// import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest.dart' as tz;
 // TODO: import flutter_timezone
 
@@ -15,7 +16,8 @@ class NotificationsUtils {
     if (_isInitialized) return;
 
     tz.initializeTimeZones();
-    // final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
+    // final String currentTimeZone = await FlutterTimezone.getLocalTimezone()
+    //     .toString();
     // tz.setLocalLocation(tz.getLocation(currentTimeZone));
 
     // Android Initialization Settings

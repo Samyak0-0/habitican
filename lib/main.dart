@@ -96,7 +96,7 @@ class _AppLayoutState extends State<AppLayout> {
                   title: "YOOOOOO",
                   body: "Chatttttttttt!!!!",
                   hour: 21,
-                  minute: 17,
+                  minute: DateTime.now().minute + 1,
                 );
               },
               child: Text("Schedule notifications"),
