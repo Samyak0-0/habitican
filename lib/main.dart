@@ -95,7 +95,7 @@ class _AppLayoutState extends State<AppLayout> {
                 NotificationsUtils().scheduleNotifications(
                   title: "YOOOOOO",
                   body: "Chatttttttttt!!!!",
-                  hour: 21,
+                  hour: DateTime.now().hour,
                   minute: DateTime.now().minute + 1,
                 );
               },

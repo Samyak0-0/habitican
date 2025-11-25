@@ -1,7 +1,9 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
-// import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_timezone/flutter_timezone.dart';
+// import 'package:flutter_timezone/flutter_timezone.dart';
+// import 'package:timezone/data/latest.dart' as tz;
 // TODO: import flutter_timezone
 
 class NotificationsUtils {
@@ -16,8 +18,10 @@ class NotificationsUtils {
     if (_isInitialized) return;
 
     tz.initializeTimeZones();
-    // final String currentTimeZone = await FlutterTimezone.getLocalTimezone()
-    //     .toString();
+    final timezoneInfo = await FlutterTimezone.getLocalTimezone();
+    final String currentTimeZone = timezoneInfo.identifier;
+    tz.setLocalLocation(tz.getLocation(currentTimeZone));
+    // final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
     // tz.setLocalLocation(tz.getLocation(currentTimeZone));
 
     // Android Initialization Settings
@@ -97,7 +101,7 @@ class NotificationsUtils {
       matchDateTimeComponents: DateTimeComponents.time,
     );
 
-    print("Notifications Scheduled");
+    print("Notifications Scheduled at ${scheduledDate.toString()}");
   }
 
   Future<void> cancelAllNotifications() async {
