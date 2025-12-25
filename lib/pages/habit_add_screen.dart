@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habitican/database/boxes.dart';
 import 'package:habitican/database/habits.dart';
+import 'package:habitican/main.dart';
+import 'package:habitican/pages/dashboard.dart';
 import 'package:habitican/utils/day_picker.dart';
 import 'package:habitican/utils/icon_list.dart';
 
@@ -163,6 +165,13 @@ class _HabitAddScreenState extends State<HabitAddScreen> {
                     );
                     newHabitId += 1;
                   }
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return MyApp();
+                      },
+                    ),
+                  );
                 });
                 // print('asa');
                 // debugPrint(_inputField.text);

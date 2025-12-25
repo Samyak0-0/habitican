@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:habitican/database/boxes.dart';
 import 'package:habitican/database/dailyTasks.dart';
 import 'package:habitican/database/tasks.dart';
+import 'package:habitican/utils/notifications_utils.dart';
 import 'package:intl/intl.dart';
 
 enum _TaskTypeList {
@@ -181,6 +182,15 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                           description: _descriptionField.text,
                         ),
                       );
+                      NotificationsUtils().scheduleNotificationsWithDate(
+                        title: _inputField.text,
+                        body: _descriptionField.text,
+                        year: selectedDate!.year,
+                        month: selectedDate!.month,
+                        day: selectedDate!.day,
+                        hour: finalSelectedTime!.hour,
+                        minute: finalSelectedTime!.minute,
+                      );
                       newTaskId += 1;
                     } else {
                       boxDailyTasks.put(
@@ -191,6 +201,12 @@ class _TaskAddScreenState extends State<TaskAddScreen> {
                           reminder: finalSelectedTime?.format(context),
                           description: _descriptionField.text,
                         ),
+                      );
+                      NotificationsUtils().scheduleNotifications(
+                        title: _inputField.text,
+                        body: _descriptionField.text,
+                        hour: finalSelectedTime!.hour,
+                        minute: finalSelectedTime!.minute,
                       );
                       newDailyTaskId += 1;
                     }

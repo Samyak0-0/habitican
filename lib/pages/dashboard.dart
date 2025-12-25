@@ -64,15 +64,20 @@ class _DashboardState extends State<Dashboard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Welcome, Samyak!', style: TextStyle(fontSize: 18),),
+                  const Text(
+                    'Welcome, Samyak!',
+                    style: TextStyle(fontSize: 18),
+                  ),
 
-          
                   Row(
                     children: [
                       Icon(Icons.calendar_month_outlined),
-                      Text(todayDate, style: TextStyle(fontSize: 14),),
+                      Text(
+                        todayDate,
+                        style: TextStyle(fontSize: 14),
+                      ),
                     ],
                   ),
                 ],

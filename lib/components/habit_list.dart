@@ -4,6 +4,7 @@ import 'package:habitican/components/habit_records.dart';
 import 'package:habitican/database/boxes.dart';
 import 'package:habitican/database/dailyRecord.dart';
 import 'package:habitican/database/habits.dart';
+import 'package:habitican/utils/notifications_utils.dart';
 // import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -38,6 +39,17 @@ class _HabitListState extends State<HabitList> {
 
       if (selectedDaysRecord == null) {
         return Text("No records found! :(");
+        // return ElevatedButton(
+        //   onPressed: () {
+        //     NotificationsUtils().scheduleNotifications(
+        //       title: "YOOOOOO",
+        //       body: "Chatttttttttt!!!!",
+        //       hour: DateTime.now().hour,
+        //       minute: DateTime.now().minute + 1,
+        //     );
+        //   },
+        //   child: Text("Schedule notifications"),
+        // );
       }
       // boxDailyRecords.values.map((e))
       return ListView.builder(

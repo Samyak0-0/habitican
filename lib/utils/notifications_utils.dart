@@ -104,6 +104,47 @@ class NotificationsUtils {
     print("Notifications Scheduled at ${scheduledDate.toString()}");
   }
 
+  Future<void> scheduleNotificationsWithDate({
+    int id = 1,
+    required String title,
+    required String body,
+    required int year,
+    required int month,
+    required int day,
+    required int hour,
+    required int minute,
+  }) async {
+    final now = tz.TZDateTime.now(tz.local);
+
+    var scheduledDate = tz.TZDateTime(
+      tz.local,
+      year,
+      month,
+      day,
+      hour,
+      minute,
+    );
+
+    // await notificationsPlugin.zonedSchedule(
+    //   id,
+    //   title,
+    //   body,
+    //   scheduledDate,
+    //   notificationDetails(),
+    //   androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+    //   matchDateTimeComponents: DateTimeComponents.time,
+    await notificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      scheduledDate,
+      notificationDetails(),
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+    );
+    // );
+    print("Notifications Scheduled at ${scheduledDate.toString()}");
+  }
+
   Future<void> cancelAllNotifications() async {
     await notificationsPlugin.cancelAll();
   }
