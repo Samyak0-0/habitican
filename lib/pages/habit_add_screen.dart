@@ -121,13 +121,23 @@ class _HabitAddScreenState extends State<HabitAddScreen> {
                     padding: EdgeInsets.all(8.0),
                     child: GestureDetector(
                       onTap: () {
-                        _selectedIcon != iconListSVG[index]
-                            ? _selectedIcon = iconListSVG[index]
-                            : _selectedIcon = null;
+                        setState(() {
+                          _selectedIcon != iconListSVG[index]
+                              ? _selectedIcon = iconListSVG[index]
+                              : _selectedIcon = null;
+                        });
                       },
-                      child: SvgPicture.asset(
-                        "assets/icons/${iconListSVG[index]}",
-                      ),
+                      child: _selectedIcon != iconListSVG[index]
+                          ? SvgPicture.asset(
+                              "assets/icons/${iconListSVG[index]}",
+                            )
+                          : SvgPicture.asset(
+                              "assets/icons/${iconListSVG[index]}",
+                              colorFilter: const ColorFilter.mode(
+                                Colors.red,
+                                BlendMode.srcIn,
+                              ),
+                            ),
                     ),
                   );
                 },

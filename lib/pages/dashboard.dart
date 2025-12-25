@@ -58,35 +58,40 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                const Text('Welcome Samyak'),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Welcome, Samyak!', style: TextStyle(fontSize: 18),),
 
-                Row(
-                  children: [
-                    Icon(Icons.calendar_month_outlined),
-                    Text(todayDate),
-                  ],
-                ),
-              ],
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return AccountScreen();
-                    },
+          
+                  Row(
+                    children: [
+                      Icon(Icons.calendar_month_outlined),
+                      Text(todayDate, style: TextStyle(fontSize: 14),),
+                    ],
                   ),
-                );
-              },
-              child: const Icon(Icons.account_circle),
-            ),
-          ],
+                ],
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return AccountScreen();
+                      },
+                    ),
+                  );
+                },
+                child: const Icon(Icons.account_circle),
+              ),
+            ],
+          ),
         ),
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

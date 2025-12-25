@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/components/to_do_cards.dart';
+import 'package:habitican/components/to_do_daily_cards.dart';
 import 'package:habitican/components/to_do_records.dart';
 import 'package:habitican/database/boxes.dart';
 import 'package:habitican/database/dailyRecord.dart';
+import 'package:habitican/database/dailyTasks.dart';
 import 'package:habitican/database/tasks.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -52,40 +54,89 @@ class _ToDoListState extends State<ToDoList> {
       );
     }
 
-    return ValueListenableBuilder(
-      valueListenable: boxTasks.listenable(),
-      builder: (context, value, child) {
-        List<Tasks> tasks = boxTasks.values.toList().cast<Tasks>();
-        tasks.sort((a, b) {
-          if (a.isCompleted == b.isCompleted) return 0;
-          return a.isCompleted ? 1 : -1;
-        });
+    return Column(
+      children: [
+        Text('Daily Tasks: '),
+        ValueListenableBuilder(
+          valueListenable: boxDailyTasks.listenable(),
 
-        return ListView.builder(
-          itemCount: boxTasks.length,
-          itemBuilder:
-              (
-                context,
-                index,
-              ) {
-                Tasks task = tasks[index];
-                // print(task.description);
-                // print(boxTasks.keys);
-                // print(task.toString());
+          builder: (context, value, child) {
+            List<DailyTasks> dailyTasks = boxDailyTasks.values
+                .toList()
+                .cast<DailyTasks>();
+            dailyTasks.sort((a, b) {
+              if (a.isCompleted == b.isCompleted) return 0;
+              return a.isCompleted ? 1 : -1;
+            });
 
-                // return const Placeholder();
-                return ToDoCards(
-                  id: task.id,
-                  name: task.name,
-                  taskDateandReminder: task.taskDateandReminder!,
-                  isCompleted: task.isCompleted,
-                  description: task.description,
-                  index: index,
-                  // reOrderFunction: _reorderTasks,
-                );
-              },
-        );
-      },
+            return Expanded(
+              child: ListView.builder(
+                itemCount: boxDailyTasks.length,
+                itemBuilder:
+                    (
+                      context,
+                      index,
+                    ) {
+                      DailyTasks dailyTask = dailyTasks[index];
+                      // print(task.description);
+                      // print(boxDailyTasks.keys);
+                      // print(task.toString());
+
+                      // return const Placeholder();
+                      return ToDoDailyCards(
+                        id: dailyTask.id,
+                        name: dailyTask.name,
+                        Reminder: dailyTask.reminder!,
+                        isCompleted: dailyTask.isCompleted,
+                        description: dailyTask.description,
+                        index: index,
+                        // reOrderFunction: _reorderDailyTasks,
+                      );
+                    },
+              ),
+            );
+          },
+        ),
+        Text('Other Tasks: '),
+        ValueListenableBuilder(
+          valueListenable: boxTasks.listenable(),
+
+          builder: (context, value, child) {
+            List<Tasks> tasks = boxTasks.values.toList().cast<Tasks>();
+            tasks.sort((a, b) {
+              if (a.isCompleted == b.isCompleted) return 0;
+              return a.isCompleted ? 1 : -1;
+            });
+
+            return Expanded(
+              child: ListView.builder(
+                itemCount: boxTasks.length,
+                itemBuilder:
+                    (
+                      context,
+                      index,
+                    ) {
+                      Tasks task = tasks[index];
+                      // print(task.description);
+                      // print(boxTasks.keys);
+                      // print(task.toString());
+
+                      // return const Placeholder();
+                      return ToDoCards(
+                        id: task.id,
+                        name: task.name,
+                        taskDateandReminder: task.taskDateandReminder!,
+                        isCompleted: task.isCompleted,
+                        description: task.description,
+                        index: index,
+                        // reOrderFunction: _reorderTasks,
+                      );
+                    },
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

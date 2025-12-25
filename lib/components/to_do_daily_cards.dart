@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:habitican/database/boxes.dart';
+import 'package:habitican/database/dailyTasks.dart';
 import 'package:habitican/database/tasks.dart';
 import 'package:habitican/pages/edit_screen.dart';
 // import 'package:habitican/utils/daily_records_manager.dart';
 import 'package:habitican/utils/global_state_provider.dart';
 import 'package:provider/provider.dart';
 
-class ToDoCards extends StatefulWidget {
+class ToDoDailyCards extends StatefulWidget {
   final int index;
   final int id;
   final String name;
   final String? description;
-  final String taskDateandReminder;
+  final String Reminder;
   final bool isCompleted;
-  const ToDoCards({
+  const ToDoDailyCards({
     super.key,
     required this.name,
     this.description,
-    required this.taskDateandReminder,
+    required this.Reminder,
     required this.id,
     required this.isCompleted,
     required this.index,
   });
 
   @override
-  State<ToDoCards> createState() => _ToDoCardsState();
+  State<ToDoDailyCards> createState() => _ToDoDailyCardsState();
 }
 
-class _ToDoCardsState extends State<ToDoCards> {
+class _ToDoDailyCardsState extends State<ToDoDailyCards> {
   late Widget optionsForTasks = PopupMenuButton(
     onSelected: (value) async {
       if (value == "edit") {
@@ -39,53 +40,30 @@ class _ToDoCardsState extends State<ToDoCards> {
           ),
         );
       }
-      // if (value == "Make Task of the Day") {
-      //   if (widget.description == null) {
-      //     Tasks firstTask = boxTasks.values.first;
-      //     boxTasks.put(
-      //       0,
-      //       Tasks(
-      //         id: 0,
-      //         name: widget.name,
-      //         taskDateandReminder: widget.taskDateandReminder,
-      //         isCompleted: widget.isCompleted,
-      //       ),
-      //     );
-      //     // boxTasks.add(firstTask);
-      //     boxTasks.put(
-      //       widget.id,
-      //       Tasks(
-      //         id: widget.id,
-      //         name: firstTask.name,
-      //         taskDateandReminder: firstTask.taskDateandReminder,
-      //         isCompleted: firstTask.isCompleted,
-      //       ),
-      //     );
-      //   } else {
-      //     Tasks firstTask = boxTasks.values.first;
-      //     boxTasks.put(
-      //       0,
-      //       Tasks(
-      //         id: 0,
-      //         name: widget.name,
-      //         taskDateandReminder: widget.taskDateandReminder,
-      //         isCompleted: widget.isCompleted,
-      //         description: widget.description,
-      //       ),
-      //     );
-      //     // boxTasks.add(firstTask);
-      //     boxTasks.put(
-      //       widget.id,
-      //       Tasks(
-      //         id: widget.id,
-      //         name: firstTask.name,
-      //         taskDateandReminder: firstTask.taskDateandReminder,
-      //         isCompleted: firstTask.isCompleted,
-      //         description: firstTask.description,
-      //       ),
-      //     );
-      //   }
-      // }
+      if (value == "Make Task of the Day") {
+        DailyTasks firstTask = boxDailyTasks.values.first;
+        boxDailyTasks.put(
+          0,
+          DailyTasks(
+            id: 0,
+            name: widget.name,
+            reminder: widget.Reminder,
+            isCompleted: widget.isCompleted,
+            description: widget.description,
+          ),
+        );
+        // boxDailyTasks.add(firstTask);
+        boxDailyTasks.put(
+          widget.id,
+          DailyTasks(
+            id: widget.id,
+            name: firstTask.name,
+            reminder: firstTask.reminder,
+            isCompleted: firstTask.isCompleted,
+            description: firstTask.description,
+          ),
+        );
+      }
       if (value == "delete") {
         showDialog(
           context: context,
@@ -102,8 +80,8 @@ class _ToDoCardsState extends State<ToDoCards> {
                 ),
                 TextButton(
                   onPressed: () {
-                    boxTasks.delete(widget.id);
-                    // boxTasks.clear();
+                    boxDailyTasks.delete(widget.id);
+                    // boxDailyTasks.clear();
                     Navigator.pop(context);
                   },
                   child: Text("Ok"),
@@ -115,10 +93,10 @@ class _ToDoCardsState extends State<ToDoCards> {
       }
     },
     itemBuilder: (context) => [
-      // PopupMenuItem(
-      //   value: 'Make Task of the Day',
-      //   child: Text("Make Task of the Day ⭐"),
-      // ),
+      PopupMenuItem(
+        value: 'Make Task of the Day',
+        child: Text("Make Task of the Day ⭐"),
+      ),
       PopupMenuItem(
         value: 'edit',
         child: Text("Edit"),
@@ -135,14 +113,13 @@ class _ToDoCardsState extends State<ToDoCards> {
     // if (description != null) {
     //   return ListTile(
     //     title: Row(
-    //       children: [Text(name), Text(taskDateandReminder)],
+    //       children: [Text(name), Text(Reminder)],
     //     ),
     //     subtitle: Text(description!),
     //     trailing: Icon(Icons.more_vert),
     //   );
     // } else {
     if (widget.description != null) {
-      // print('desc: ${widget.description}');
       return ListTile(
         tileColor: (widget.index == 0 && widget.isCompleted == false)
             ? Colors.amberAccent
@@ -159,24 +136,18 @@ class _ToDoCardsState extends State<ToDoCards> {
                     )
                   : TextStyle(),
             ),
-            Column(
-              children: [
-                Text(widget.taskDateandReminder.split(" ")[0]),
-                Text(widget.taskDateandReminder.split(" ")[1].substring(0, 5)),
-              ],
-            ),
+            Text(widget.Reminder.split("  ")[0]),
           ],
         ),
         subtitle: Text(widget.description!),
         // leading: Icon,
         onTap: () {
-          boxTasks.put(
+          boxDailyTasks.put(
             widget.id,
-            Tasks(
+            DailyTasks(
               id: widget.id,
               name: widget.name,
-              description: widget.description,
-              taskDateandReminder: widget.taskDateandReminder,
+              reminder: widget.Reminder,
               isCompleted: !widget.isCompleted,
             ),
           );
@@ -208,17 +179,17 @@ class _ToDoCardsState extends State<ToDoCards> {
                   )
                 : TextStyle(),
           ),
-          Text(widget.taskDateandReminder.split(" ")[0]),
+          Text(widget.Reminder.split(" ")[0]),
         ],
       ),
 
       onTap: () {
-        boxTasks.put(
+        boxDailyTasks.put(
           widget.id,
-          Tasks(
+          DailyTasks(
             id: widget.id,
             name: widget.name,
-            taskDateandReminder: widget.taskDateandReminder,
+            reminder: widget.Reminder,
             isCompleted: !widget.isCompleted,
           ),
         );
