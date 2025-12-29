@@ -64,47 +64,58 @@ Future<void> dailyRecordsManager() async {
     print(checkExisting);
     return;
   }
-
-  habitsList.map((e) async {
-    await boxHabits.put(
-      e.id,
-      Habits(
-        id: e.id,
-        name: e.name,
-        interval: e.interval,
-        reminder: e.reminder,
-        iconName: e.iconNAme,
-        isCompleted: false,
-      ),
+  Future<void> resetRecords() async {
+    // Use Future.wait with a for loop or .map().toList()
+    await Future.wait(
+      habitsList.map((e) async {
+        await boxHabits.put(
+          e.id,
+          Habits(
+            id: e.id,
+            name: e.name,
+            interval: e.interval,
+            reminder: e.reminder,
+            iconName: e.iconName,
+            isCompleted: false,
+          ),
+        );
+      }),
     );
-  });
-  tasksList.map((e) async {
-    if (e?.taskDateandReminder == null) {
-      await boxTasks.put(
-        e.id,
-        Tasks(
-          id: e.id,
-          name: e.name,
-          taskDateandReminder: e.taskDateandReminder,
-          isCompleted: false,
-        ),
-      );
-    } else {
-      await boxTasks.delete(e.id);
-    }
-  });
-  dailyTasksList.map((e) async {
-    await boxDailyTasks.put(
-      e.id,
-      DailyTasks(
-        id: e.id,
-        name: e.name,
-        reminder: e.reminder,
-        isCompleted: false,
-      ),
-    );
-  });
 
+    await Future.wait(
+      tasksList.map((e) async {
+        if (e?.taskDateandReminder == null) {
+          await boxTasks.put(
+            e.id,
+            Tasks(
+              id: e.id,
+              name: e.name,
+              taskDateandReminder: e.taskDateandReminder,
+              isCompleted: false,
+            ),
+          );
+        } else {
+          await boxTasks.delete(e.id);
+        }
+      }),
+    );
+
+    await Future.wait(
+      dailyTasksList.map((e) async {
+        await boxDailyTasks.put(
+          e.id,
+          DailyTasks(
+            id: e.id,
+            name: e.name,
+            reminder: e.reminder,
+            isCompleted: false,
+          ),
+        );
+      }),
+    );
+  }
+
+  await resetRecords();
   if (dailyRecordsBox.keys.isEmpty) {
     addRecord(todayDateTime);
     return;
