@@ -49,16 +49,16 @@ class DailyRecord {
   @override
   String toString() {
     String printString = '';
-    habitName.forEach((e) {
+    taskName.forEach((e) {
       printString += "\t$e\t";
     });
     // taskName.forEach((e) {
     //   printString += "\t$e\t";
     // });
-    habitId.forEach((e) {
+    taskId.forEach((e) {
       printString += "\t$e\t";
     });
-    isHabitCompleted.forEach((e) {
+    isTaskCompleted.forEach((e) {
       printString += "\t$e\t";
     });
     return '$date -- $printString --';

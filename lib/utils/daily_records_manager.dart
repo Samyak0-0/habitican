@@ -61,7 +61,7 @@ Future<void> dailyRecordsManager() async {
   // await dailyRecordsBox.deleteAt(dailyRecordsBox.length - 1);
   // print(boxHabits.keys);
   if (checkExisting != null) {
-    print(checkExisting);
+    // print(checkExisting);
     return;
   }
   Future<void> resetRecords() async {
@@ -84,19 +84,19 @@ Future<void> dailyRecordsManager() async {
 
     await Future.wait(
       tasksList.map((e) async {
-        if (e?.taskDateandReminder == null) {
-          await boxTasks.put(
-            e.id,
-            Tasks(
-              id: e.id,
-              name: e.name,
-              taskDateandReminder: e.taskDateandReminder,
-              isCompleted: false,
-            ),
-          );
-        } else {
-          await boxTasks.delete(e.id);
-        }
+        // if (e?.taskDateandReminder == null) {
+        await boxTasks.put(
+          e.id,
+          Tasks(
+            id: e.id,
+            name: e.name,
+            taskDateandReminder: e.taskDateandReminder,
+            isCompleted: false,
+          ),
+        );
+        // } else {
+        // await boxTasks.delete(e.id);
+        // }
       }),
     );
 
@@ -127,7 +127,7 @@ Future<void> dailyRecordsManager() async {
   for (int i = 0; i < difference.inDays; i++) {
     addRecord(parsedDate.subtract(Duration(days: i)));
   }
-
+}
   // if (dailyRecordsBox.keys.isNotEmpty) {
   //   final lastDailyRecord = dailyRecordsBox.keys.last;
   //   print(lastDailyRecord);
@@ -152,4 +152,4 @@ Future<void> dailyRecordsManager() async {
   // print(todayDate);
   // print(todayDate.toString() + "aaaa");
   // print(todayDate.toLocal());
-}
+

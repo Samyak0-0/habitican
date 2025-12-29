@@ -23,6 +23,7 @@ class _ToDoListState extends State<ToDoList> {
   //     return a.isDone ? 1 : -1;
   //   });
   // }
+  Box tasksList = boxTasks;
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +42,37 @@ class _ToDoListState extends State<ToDoList> {
       if (selectedDaysRecord == null) {
         return Text("No records found! :(");
       }
+      // print(selectedDaysRecord.toString());
       // boxDailyRecords.values.map((e))
-      return ListView.builder(
-        itemCount: selectedDaysRecord.taskName.length,
-        itemBuilder: (context, index) {
-          return ToDoRecords(
-            index: index + 1,
-            name: selectedDaysRecord.taskName[index],
-            isCompleted: selectedDaysRecord.isTaskCompleted[index],
-          );
-        },
+      return Column(
+        children: [
+          Text('Tasks'),
+          Expanded(
+            child: ListView.builder(
+              itemCount: selectedDaysRecord.taskName.length,
+              itemBuilder: (context, index) {
+                return ToDoRecords(
+                  index: index + 1,
+                  name: selectedDaysRecord.taskName[index],
+                  isCompleted: selectedDaysRecord.isTaskCompleted[index],
+                );
+              },
+            ),
+          ),
+          Text('Daily Tasks'),
+          Expanded(
+            child: ListView.builder(
+              itemCount: selectedDaysRecord.dailyTaskName.length,
+              itemBuilder: (context, index) {
+                return ToDoRecords(
+                  index: index + 1,
+                  name: selectedDaysRecord.dailyTaskName[index],
+                  isCompleted: selectedDaysRecord.isDailyTaskCompleted[index],
+                );
+              },
+            ),
+          ),
+        ],
       );
     }
 

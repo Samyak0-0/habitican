@@ -39,17 +39,6 @@ class _HabitListState extends State<HabitList> {
 
       if (selectedDaysRecord == null) {
         return Text("No records found! :(");
-        // return ElevatedButton(
-        //   onPressed: () {
-        //     NotificationsUtils().scheduleNotifications(
-        //       title: "YOOOOOO",
-        //       body: "Chatttttttttt!!!!",
-        //       hour: DateTime.now().hour,
-        //       minute: DateTime.now().minute + 1,
-        //     );
-        //   },
-        //   child: Text("Schedule notifications"),
-        // );
       }
       // boxDailyRecords.values.map((e))
       return ListView.builder(
@@ -67,6 +56,33 @@ class _HabitListState extends State<HabitList> {
     //   print('Habit: ${habit.name}, Streak: ${habit.interval}');
     // }
     // print(habitsList.values.toList()[0].name);
+
+    if (timeDiff.inDays < 0) {
+      // DailyRecord? selectedDaysRecord = boxDailyRecords.get(
+      //   widget.selectedDate.toString().split(" ")[0],
+      // );
+      //
+      // if (selectedDaysRecord == null) {
+      //   return Text("No records found! :(");
+      // }
+      // // boxDailyRecords.values.map((e))
+      // return ListView.builder(
+      //   itemCount: selectedDaysRecord.habitName.length,
+      //   itemBuilder: (context, index) {
+      //     return HabitRecords(
+      //       index: index + 1,
+      //       name: selectedDaysRecord.habitName[index],
+      //       isCompleted: selectedDaysRecord.isHabitCompleted[index],
+      //     );
+      //   },
+      // );
+      // habitsList
+      // print(habitsList.values.toList());
+      for (int i = 0; i < habitsList.values.length; i++) {
+        // print(habitsList.values.toList()[i].toString());
+        print(habitsList.values.toList()[i].name);
+      }
+    }
 
     return ValueListenableBuilder(
       valueListenable: boxHabits.listenable(),
